@@ -1,9 +1,36 @@
 
-import {Card, CardHeader, CardBody, CardFooter, Divider,  Image} from "@nextui-org/react";
+import {Card, CardHeader, CardBody, CardFooter, Divider,  Image, button} from "@nextui-org/react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import * as commitAPI from "../../utilities/commit-api"
+import { getUser } from '../../utilities/users-service';
 export default function CommitListItem({commit}){
+  const [push, setPush] = useState(false)
+  async function handlePushButton(){
+    const pushCommit = await commitAPI.pushCommit(commit._id, commit.user)
+    setPush(true)
+  }
+  function renderButton(){
+    if (commit.push === false && commit.user._id === currUser._id) {
+      return <button onClick={handlePushButton}>Push</button>
+    } else if (commit.push === false && commit.user._id != currUser._id){
+      return <button >In progress</button>
+    } else if (commit.push === true && commit.user._id != currUser._id) {
+      return <button>Pull</button>
+    } else if(commit.push === true && commit.user._id === currUser._id){
+      return <button>pushed</button>
+    }
+
+  }
+  const [currUser, setCurrUser] = useState(getUser());
 return(
     <Card className="max-w-[400px] bg-black ">
+      <h1 className="text-4xl text-white">12{currUser._id}</h1>
+      <br />
+      <h1 className="text-4xl text-white">12{commit.user._id}</h1>
+<h1 className="text-4xl text-white">test{commit.push?<h1>Success</h1> : <h1>Fail</h1>}</h1>
+{/* {commit.push === false && commit.user === currUser._id ?  <button onClick={handlePushButton}>Push</button> : <button>Pull</button>} */}
+{renderButton()}
     <CardHeader className="flex gap-3 bg-red-500">
       <Image
         alt="nextui logo"

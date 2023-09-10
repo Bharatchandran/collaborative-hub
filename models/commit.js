@@ -15,6 +15,11 @@ const commitSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Project",
         required: true
+    },
+    push:{
+        type: Boolean,
+        required: true,
+        default: false
     }
 }, {
     timestamps: true

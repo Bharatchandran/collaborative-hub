@@ -2,7 +2,6 @@ import {Card, CardHeader, CardBody, CardFooter, Divider,  Image} from "@nextui-o
 import { Link } from "react-router-dom";
 
 export default function SubTaskListItem({subTask}) {
-    console.log(subTask)
     return(
        <h1>{subTask.task}</h1>
     )

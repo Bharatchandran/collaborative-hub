@@ -9,16 +9,13 @@ export default function SubTask() {
 
     useEffect(function(){
         async function getAllSubTasks(commitId) {
-            console.log(commitId)
             const allSubTasks = await subtaskAPI.getAllSubTasks(commitId)
             setSubTasks(allSubTasks)
         }
         getAllSubTasks(commitId)
     },[newSubTask])
-console.log(subTasks)
     async function handleSubmit(evt) {
         evt.preventDefault();
-        console.log("handle")
         await subtaskAPI.createSubTask(newSubTask,commitId)
         setNewSubTask("")
     }

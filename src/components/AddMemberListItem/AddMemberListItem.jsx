@@ -1,10 +1,15 @@
 import * as addmembersAPI from "../../utilities/addmembers-api"
 export default function AddMemberListItem({user, projectId}) {
     async function handleClick() {
-        await addmembersAPI.addUser(projectId)    
+        // alert("clicked")
+        await addmembersAPI.addUser(projectId,user._id)    
     }
-    return(<div>User
-
+    console.log(user)
+    return(<div>
+        
+        {user.name}
+        <br />
+        {user._id}
         <button onClick={handleClick}>Add</button>
     </div>)
 }

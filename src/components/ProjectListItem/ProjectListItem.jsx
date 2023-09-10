@@ -2,6 +2,7 @@
 import {Card, CardHeader, CardBody, CardFooter, Divider,  Image} from "@nextui-org/react";
 import { Link } from "react-router-dom";
 export default function ProjectListItem({project, selectedProject, active}){
+  console.log(project)
     return (
     <Card className="max-w-[400px] bg-black ">
       <Link to={`${project._id}/addMembers`}><button>Add Members</button></Link>

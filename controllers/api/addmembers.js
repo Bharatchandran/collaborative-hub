@@ -7,12 +7,17 @@ module.exports = {
 }
 
 async function getAllUsers(req, res) {
-    const users = await User.find({})
-    console.log(users,"===")
+    const users = await User.find({_id :{ $ne: req.user._id } })
     res.json(users)
 }
 
 async function addUser(req, res){
-    const members = await ProjectMember.create({project:req.body.projectId, user: req.user._id})
-    res.json(members)
+    console.log(req.body.userId)
+    console.log(req.user._id)
+    // const isAMember = await ProjectMember.find({user: req.body.userId})
+    const members = await ProjectMember.create({project:req.body.projectId, user: req.body.userId})
+//     if(isAMember){
+// }
+console.log(members.user)
+res.json(members)
 }

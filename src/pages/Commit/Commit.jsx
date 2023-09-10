@@ -8,7 +8,6 @@ export default function Commit(){
     const [newCommit, setNewCommit] = useState("")
     const[commits, setCommits] = useState([])
     let {projectId} = useParams();
-    console.log(projectId)
 
     useEffect(function(){
         async function getAllCommits(projectId) {
@@ -19,7 +18,6 @@ export default function Commit(){
     },[newCommit])
     async function handleSubmit(evt) {
         evt.preventDefault();
-        console.log("handle")
         await commitAPI.createCommit(newCommit,projectId)
         setNewCommit("")
     }
