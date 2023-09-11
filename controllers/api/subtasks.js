@@ -2,7 +2,8 @@ const Subtask = require('../../models/subtask');
 
 module.exports = {
     getAllSubTasks,
-    createSubTask
+    createSubTask,
+    handleCompleteTask
 }
 
 async function getAllSubTasks(req, res) {
@@ -14,5 +15,13 @@ async function getAllSubTasks(req, res) {
 
 async function createSubTask(req, res){
     const subtask = await Subtask.create({task:req.body.task, commit: req.params.id})
+    res.json(subtask)
+}
+
+async function handleCompleteTask(req, res) {
+    const subtask = await Subtask.findOne({_id: req.body.subtaskId})
+    subtask.completed = true
+    await subtask.save()
+    console.log(subtask.completed)
     res.json(subtask)
 }

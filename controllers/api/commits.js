@@ -5,7 +5,7 @@ module.exports = {
     createCommit,
     pushCommit,
     pullCommit,
-    findPull
+    findPull,
 }
 
 async function getAllCommits(req, res) {
@@ -40,3 +40,4 @@ async function findPull(req, res) {
     // await pull.save()
     res.json(pull)
 }
+

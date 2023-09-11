@@ -42,7 +42,7 @@ export default function Project() {
         {/* <ProjectList projects={projects} selectedProject={selectedProject} setSelectedProject={setSelectedProject} /> */}
         <hr />
         {/* <JoinedProjectList joinedProjects={joinedProjects} /> */}
-        <ProjectList projects={joinedProjects} selectedProject={selectedProject} setSelectedProject={setSelectedProject} />
+        <ProjectList key={"ProjectListInProject"} projects={joinedProjects} selectedProject={selectedProject} setSelectedProject={setSelectedProject} />
 
         </div>)
 }

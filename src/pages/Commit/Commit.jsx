@@ -30,7 +30,7 @@ export default function Commit(){
         </form>
         </div>
         <div className="flex  w-full justify-center">
-        <CommitList commits={commits}  />
+        <CommitList key={"CommitListInCommit"} commits={commits}  />
         </div>
         </div>
     )

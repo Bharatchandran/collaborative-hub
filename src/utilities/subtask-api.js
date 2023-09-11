@@ -9,3 +9,7 @@ export function createSubTask(newSubTask, commitId) {
 export function getAllSubTasks(commitId){
     return sendRequest(`${BASE_URL}/${commitId}`)
 }
+
+export function handleCompleteTask(subtaskId){
+    return sendRequest(`${BASE_URL}/findSubtask`,'POST',{subtaskId})
+}

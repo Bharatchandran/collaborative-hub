@@ -11,6 +11,10 @@ const subtaskSchema = new Schema({
         ref: 'Commit',
         required : true
     },
+    completed: {
+        type: Boolean,
+        default: false
+    }
    
 }, {
     timestamps: true

@@ -4,7 +4,7 @@ import ProjectListItem from "../../components/ProjectListItem/ProjectListItem"
 import { useState } from "react"
 export default function ProjectList({projects , selectedProject, setSelectedProject}) {
     const [active, setActive] = useState(-1)
-    const projectList = projects.map((project) => <ProjectListItem project={project} selectedProject={selectedProject} active={active} />)
+    const projectList = projects.map((project) => <ProjectListItem key={project._id} project={project} selectedProject={selectedProject} active={active} />)
 
     // const projectList = projects.map((project) => <button onClick={() =>{
     //     // if (selectedProject === project._id) setActive(-1)
