@@ -13,3 +13,7 @@ export function getAllProjects(){
 export function getAllJoinedProjects(){
     return sendRequest(`${BASE_URL}/joined`)
 }
+
+export function getProjectOwner(userId){
+    return sendRequest(`${BASE_URL}/${userId}`)
+}

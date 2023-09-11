@@ -1,9 +1,11 @@
+const User = require('../../models/user')
 const Project = require('../../models/project');
 const ProjectMember = require('../../models/projectmember')
 module.exports = {
     getAllProjects,
     createProject,
-    getAllJoinedProjects
+    getAllJoinedProjects,
+    getProjectOwner
 }
 
 async function getAllProjects(req, res) {
@@ -18,8 +20,13 @@ async function createProject(req, res){
 }
 
 async function getAllJoinedProjects(req,res){
-    let projects = await ProjectMember.find({user: req.user._id}).populate('project').populate('user')
+    let projects = await ProjectMember.find({user: req.user._id}).populate('project').populate('user').sort('-createdAt')
     projects = projects.map(project => project.project)
-    console.log(projects,"===+++")
     res.json(projects)
+}
+
+async function getProjectOwner(req, res){
+    const owner = await User.findOne({_id:req.params.id})
+    res.json(owner)
+
 }

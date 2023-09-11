@@ -29,7 +29,7 @@ export default function Commit(){
             <button type="submit">Submit</button>
         </form>
         </div>
-        <div>
+        <div className="flex  w-full justify-center">
         <CommitList commits={commits}  />
         </div>
         </div>

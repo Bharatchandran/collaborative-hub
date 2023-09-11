@@ -10,6 +10,8 @@ export default function SubTask() {
     useEffect(function(){
         async function getAllSubTasks(commitId) {
             const allSubTasks = await subtaskAPI.getAllSubTasks(commitId)
+            console.log(commitId)
+            console.log(allSubTasks)
             setSubTasks(allSubTasks)
         }
         getAllSubTasks(commitId)

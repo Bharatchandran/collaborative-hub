@@ -12,11 +12,11 @@ import AddMembers from '../AddMembers/AddMembers';
 export default function App() {
   const [user, setUser] = useState(getUser());
   return (
-    <NextUIProvider >
-    <main className="App dark:">
+    <main>
       { user ?
           <>
             <NavBar user={user} setUser={setUser} />
+            <div className='min-h-screen'>
             <Routes>
               {/* Route components in here */}
               <Route path="/" element={<Project />} />
@@ -24,11 +24,11 @@ export default function App() {
               <Route path="project/:projectId/commit/:commitId" element={<SubTask />} />
               <Route path=":projectId/addMembers" element={<AddMembers />} />
             </Routes>
+            </div>
           </>
           :
           <AuthPage setUser={setUser} />
       }
     </main>
-    </NextUIProvider>
   );
 }

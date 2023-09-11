@@ -4,7 +4,6 @@ export default function AddMemberListItem({user, projectId}) {
         // alert("clicked")
         await addmembersAPI.addUser(projectId,user._id)    
     }
-    console.log(user)
     return(<div>
         
         {user.name}

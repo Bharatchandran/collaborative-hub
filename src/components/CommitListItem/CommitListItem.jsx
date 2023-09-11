@@ -1,68 +1,99 @@
 
-import {Card, CardHeader, CardBody, CardFooter, Divider,  Image, button} from "@nextui-org/react";
+import {Card, CardBody, Button} from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import * as commitAPI from "../../utilities/commit-api"
 import { getUser } from '../../utilities/users-service';
+
+
+import {Listbox, ListboxItem} from "@nextui-org/react";
+import {ListboxWrapper} from "./ListboxWrapper";
+import * as subtaskAPI from  "../../utilities/subtask-api"
+import {Input} from "@nextui-org/react";
+
 export default function CommitListItem({commit}){
+  const [user, setUser] = useState(getUser());
+  const [newSubTask, setNewSubTask] = useState("")
+  const [testTasks, setTestTasks] = useState([])
+  const commitId = commit._id
+  const userId = user._id
   const [push, setPush] = useState(false)
+  const [pull, setPull] = useState(false)
+  const [currUser, setCurrUser] = useState(getUser());
+ 
   async function handlePushButton(){
     const pushCommit = await commitAPI.pushCommit(commit._id, commit.user)
     setPush(true)
   }
+  async function handlePullButton(){
+    const pushCommit = await commitAPI.pullCommit(commit._id, currUser._id)
+  }
+
+
+  useEffect(function(){
+      async function getAllSubTasks(commitId) {
+          const allSubTasks = await subtaskAPI.getAllSubTasks(commitId)
+          console.log(allSubTasks, commitId)
+          setTestTasks(allSubTasks)
+          console.log(testTasks)
+      }
+      getAllSubTasks(commitId)
+      
+      async function findPull(commitId, userId){
+        const pull = await commitAPI.findPull(commitId, userId)
+        setPull(pull)
+      }
+      findPull(commitId, userId)
+  },[newSubTask, push])
+  async function handleSubmit(evt) {
+      evt.preventDefault();
+      await subtaskAPI.createSubTask(newSubTask,commitId)
+      setNewSubTask("")
+  }
+
+ 
   function renderButton(){
     if (commit.push === false && commit.user._id === currUser._id) {
-      return <button onClick={handlePushButton}>Push</button>
-    } else if (commit.push === false && commit.user._id != currUser._id){
-      return <button >In progress</button>
-    } else if (commit.push === true && commit.user._id != currUser._id) {
-      return <button>Pull</button>
+      return <Button className="bg-primary-300 hover:bg-primary-200" onClick={()=> setPush(true)}>Push</Button>
     } else if(commit.push === true && commit.user._id === currUser._id){
-      return <button>pushed</button>
-    }
+      return <Button className="bg-success-300 hover:bg-success-200">pushed</Button>
+   
+    } else if (commit.push === true && commit.user._id != currUser._id && commit.push === true) {
+      if(pull){
+        return <Button className="bg-success-300 hover:bg-success-200">Pulled</Button>
+      } else {
+
+        return <Button onClick={handlePullButton} className="bg-secondary-300 hover:bg-secondary-200">Pull</Button>
+      }
+    } 
+     else if (commit.push === false && commit.user._id != currUser._id){
+      return <Button className="bg-warning-300 hover:bg-warning-200" >In progress</Button>
+    } 
 
   }
-  const [currUser, setCurrUser] = useState(getUser());
 return(
-    <Card className="max-w-[400px] bg-black ">
-      <h1 className="text-4xl text-white">12{currUser._id}</h1>
-      <br />
-      <h1 className="text-4xl text-white">12{commit.user._id}</h1>
-<h1 className="text-4xl text-white">test{commit.push?<h1>Success</h1> : <h1>Fail</h1>}</h1>
-{/* {commit.push === false && commit.user === currUser._id ?  <button onClick={handlePushButton}>Push</button> : <button>Pull</button>} */}
+
+
+
+
+
+<div>
+<Card className=" min-h-unit-24 mt-5 mb-5 flex-row items-center">
+<CardBody className="justify-center" >
+  <div>{commit.name}</div>
+</CardBody>
+<div className="flex">
 {renderButton()}
-    <CardHeader className="flex gap-3 bg-red-500">
-      <Image
-        alt="nextui logo"
-        height={40}
-        radius="sm"
-        src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
-        width={40}
-      />
-      <div className="flex flex-col">
-        {/* <p className="text-md">{commit.user.name}</p> */}
-        <p className="text-small text-default-500">{commit.name}</p>
-      </div>
-    </CardHeader>
-      <Link to={`/`}><h1 className="text-white">Project Details</h1></Link>
-    <Divider/>
-    {/* <Link to={`commit/${commit._id}`}>SubTasks</Link> */}
-    <Link to={`commit/${commit._id}`}><h1 className="text-white">sub tasks</h1></Link>
-{/* 
-    {project._id === selectedProject && active === 1 ? <CardBody>
-      <p className="text-white">Make beautiful websites regardless of your design experience.</p>
-      <p className="text-white">Make beautiful websites regardless of your design experience.</p>
-      <p className="text-white">Make beautiful websites regardless of your design experience.</p>
-      <p className="text-white">Make beautiful websites regardless of your design experience.</p>
-      <p className="text-white">Make beautiful websites regardless of your design experience.</p>
-      <p className="text-white">Make beautiful websites regardless of your design experience.</p>
-    </CardBody> : "test"} */}
-    
-    <Divider/>
-    <CardFooter>
-     
-    </CardFooter>
-  
-  </Card>
+<Button> <Link to={`commit/${commit._id}`}><h1 className="text-white">sub tasks</h1></Link></Button>
+</div>
+</Card>
+<h1>{commit.pull.toString()} {commit.pull.toString()}</h1>
+
+<form onSubmit={handleSubmit} > <Input  required value={newSubTask} onChange={(evt) => setNewSubTask(evt.target.value)} /></form>
+           
+<div>
+  {testTasks.map(subTask => <h1>{subTask.task}</h1>)}
+</div>
+</div>
 )
 }

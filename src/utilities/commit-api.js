@@ -13,3 +13,11 @@ export function getAllCommits(projectId){
 export function pushCommit(commitId, userId) {
     return sendRequest(`${BASE_URL}/push`,'POST',{commitId, userId})
 }
+
+export function pullCommit(commitId, userId) {
+    return sendRequest(`${BASE_URL}/pull`,'POST',{commitId, userId})
+}
+
+export function findPull(commitId, userId){
+    return sendRequest(`${BASE_URL}/pull/find`,'POST',{commitId, userId})
+}

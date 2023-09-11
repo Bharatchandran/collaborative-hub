@@ -20,7 +20,11 @@ const commitSchema = new Schema({
         type: Boolean,
         required: true,
         default: false
-    }
+    },
+    pull: {
+        type: Boolean,
+        default: false
+    },
 }, {
     timestamps: true
 })
