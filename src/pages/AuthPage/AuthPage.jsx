@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import SignUpForm from '../../components/SignUpForm/SignUpForm';
 import LoginForm from '../../components/LoginForm/LoginForm';
-
+import { Button } from '@nextui-org/react';
 export default function AuthPage({ setUser }) {
   const [showSignUp, setShowSignUp] = useState(false);
   const [showAuth, setShowAuth] = useState(false)

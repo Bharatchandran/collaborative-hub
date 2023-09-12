@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { signUp } from '../../utilities/users-service';
-
+import { Button } from '@nextui-org/react';
 export default class SignUpForm extends Component {
   state = {
     name: '',
@@ -48,9 +48,9 @@ export default class SignUpForm extends Component {
             <input type="password" name="password" value={this.state.password} onChange={this.handleChange} required />
             <label>Confirm</label>
             <input type="password" name="confirm" value={this.state.confirm} onChange={this.handleChange} required />
-            <button type="submit" disabled={disable}>SIGN UP</button>
+            <Button type="submit" disabled={disable}>SIGN UP</Button>
           </form>
-          <button onClick={() => this.props.setShowSignUp(!this.props.showSignUp)}>{this.props.showSignUp ? 'Log In' : 'Sign Up'}</button>
+          <Button onClick={() => this.props.setShowSignUp(!this.props.showSignUp)}>{this.props.showSignUp ? 'Log In' : 'Sign Up'}</Button>
         </div>
         <p className="error-message">&nbsp;{this.state.error}</p>
       </div>
