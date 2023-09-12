@@ -6,15 +6,22 @@ import { useParams } from "react-router-dom"
 export default function AddMembers(){
     const [users, setUsers] = useState([])
     const {projectId} = useParams()
+
     useEffect(function(){
+
         async function getAllUsers(){
             const allUsers = await addmembersAPI.getAllUsers()
             setUsers(allUsers)
 
         }
+
         getAllUsers()
+
     },[])
-    return(<div>
-        <AddMemberList users={users} projectId={projectId}/>
-    </div>)
+
+    return(
+        <div>
+            <AddMemberList users={users} projectId={projectId}/>
+        </div>
+    )
 }

@@ -9,8 +9,6 @@ module.exports = {
 async function getAllSubTasks(req, res) {
     const subtasks = await Subtask.find({user:req.user._id, commit: req.params.id}).sort('-createdAt')
     res.json(subtasks)
-    // const subtasks = await Subtask.find({user: req.user._id, commit: req.params.id}).sort('-createdAt').populate('user');
-    // res.json(subtasks)
 }
 
 async function createSubTask(req, res){
@@ -22,6 +20,5 @@ async function handleCompleteTask(req, res) {
     const subtask = await Subtask.findOne({_id: req.body.subtaskId})
     subtask.completed = true
     await subtask.save()
-    console.log(subtask.completed)
     res.json(subtask)
 }

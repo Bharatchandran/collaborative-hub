@@ -29,11 +29,9 @@ async function getAllJoinedProjects(req,res){
 async function getProjectOwner(req, res){
     const owner = await User.findOne({_id:req.params.id})
     res.json(owner)
-
 }
 
 async function getProjectMembers(req, res) {
     const members = await ProjectMember.find({project: req.body.projectId})
-    console.log(members)
     res.json(members)
 }

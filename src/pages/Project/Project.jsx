@@ -34,12 +34,13 @@ export default function Project() {
         setCreateProject(!createProject)
     }
 
-    return(<div className="flex flex-col items-center ">
+    return(
+    <div className="flex flex-col items-center ">
        
         <div className="flex justify-between items-center w-[70%] ml-4  mt-4">
-        <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Projects</span> </h1>
+            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Projects</span> </h1>
             <Button color="warning" onClick={()=> setCreateProject(!createProject)} >Create</Button>
-            </div>
+        </div>
         {createProject ? <div className="flex justify-center bg-opacity-90 rounded-xl absolute top-[30%]  w-[700px] z-40 h-[500px] bg-black ">
         <Button className="absolute left-5 top-5" onClick={()=> setCreateProject(!createProject)}>X</Button>    
         <form className="flex flex-col justify-center items-center" onSubmit={handleSubmit}>
@@ -48,11 +49,6 @@ export default function Project() {
             <Button color="primary" type="submit">Submit</Button>
         </form>
         </div> : ""}
-        
-        {/* <ProjectList projects={projects} selectedProject={selectedProject} setSelectedProject={setSelectedProject} /> */}
-        <hr />
-        {/* <JoinedProjectList joinedProjects={joinedProjects} /> */}
         <ProjectList key={"ProjectListInProject"} projects={joinedProjects} selectedProject={selectedProject} setSelectedProject={setSelectedProject}  />
-
-        </div>)
+    </div>)
 }

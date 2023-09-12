@@ -5,15 +5,6 @@ import { useState } from "react"
 export default function ProjectList({projects , selectedProject, setSelectedProject, setProjectPush}) {
     const [active, setActive] = useState(-1)
     const projectList = projects.map((project) => <ProjectListItem key={project._id} project={project} selectedProject={selectedProject} active={active}  />)
-
-    // const projectList = projects.map((project) => <button onClick={() =>{
-    //     // if (selectedProject === project._id) setActive(-1)
-    //     if(active === 1) setActive(-1) 
-    //     setSelectedProject(project._id)
-    //      setActive(active*-1)
-         
-    // }
-    // }><ProjectListItem project={project} selectedProject={selectedProject} active={active} /></button>)
     return (
     <div className="w-10/12 flex flex-col items-center ">
         {projectList}

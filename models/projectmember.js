@@ -1,9 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
-
-
-
 const projectmemberSchema = new Schema({
     project: {
         type: Schema.Types.ObjectId,

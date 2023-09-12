@@ -12,7 +12,6 @@ const pullcommitSchema = new Schema({
         ref: "User",
         required: true
     },
-    
     pull: {
         type: Boolean,
         default: false
