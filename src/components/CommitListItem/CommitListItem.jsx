@@ -12,23 +12,26 @@ import * as subtaskAPI from  "../../utilities/subtask-api"
 import {Input} from "@nextui-org/react";
 import SubTakListHomeView from "../SubTakListHomeView/SubTakListHomeView";
 
-export default function CommitListItem({commit, activeState, activeCommit, handleActiveState}){
+export default function CommitListItem({commit, activeState, activeCommit, handleActiveState, setProjectPush, projectPush}){
   const [user, setUser] = useState(getUser());
   const [newSubTask, setNewSubTask] = useState("")
   const [testTasks, setTestTasks] = useState([])
   const commitId = commit._id
   const userId = user._id
-  const [push, setPush] = useState(false)
+  const [push, setPush] = useState("")
   const [pull, setPull] = useState(false)
   const [currUser, setCurrUser] = useState(getUser());
- 
-
+ const [buttonState, setButtonState] = useState(-1)
+// console.log(projectPush)
+console.log(commitId)
   async function handlePushButton(){
     const pushCommit = await commitAPI.pushCommit(commit._id, commit.user)
-    setPush(true)
+    // setProjectPush(projectPush * -1)
+    setButtonState(buttonState * -1)
   }
   async function handlePullButton(){
     const pushCommit = await commitAPI.pullCommit(commit._id, currUser._id)
+    setPull(true)
   }
 async function handleCompleteTask(evt,subtaskId){
   console.log(!!evt.value)
@@ -40,13 +43,23 @@ async function handleCompleteTask(evt,subtaskId){
           const allSubTasks = await subtaskAPI.getAllSubTasks(commitId)
           setTestTasks(allSubTasks)
       }
-      getAllSubTasks(commitId)
+      getAllSubTasks(commit._id)
+
       async function findPull(commitId, userId){
         const pull = await commitAPI.findPull(commitId, userId)
         setPull(pull)
       }
-      findPull(commitId, userId)
-  },[newSubTask, push])
+      // console.log(commitId)
+      async function findPushed(commitId,userId){
+      
+        const pushCommit = await commitAPI.findPushed(commitId, userId)
+        setPush(pushCommit)
+        console.log(push)
+      }
+      findPushed(commit._id,userId)
+      findPull(commit._id, userId)
+  },[newSubTask, buttonState])
+
   async function handleSubmit(evt) {
       evt.preventDefault();
       await subtaskAPI.createSubTask(newSubTask,commitId)
@@ -55,12 +68,16 @@ async function handleCompleteTask(evt,subtaskId){
 
  
   function renderButton(){
-    if (commit.push === false && commit.user._id === currUser._id) {
-      return <Button className="bg-primary-300 hover:bg-primary-200" onClick={handlePushButton}>Push</Button>
-    } else if(commit.push === true && commit.user._id === currUser._id){
-      return <Button className="bg-success-300 hover:bg-success-200">pushed</Button>
+    
+    if(push && push.push === true && push.user === currUser._id){
+      console.log(push,"+++++")
+     return <Button className="bg-success-300 hover:bg-success-200">pushed</Button>
+  
    
-    } else if (commit.push === true && commit.user._id != currUser._id && commit.push === true) {
+  } else if (commit.push === false && commit.user._id === currUser._id) {
+        return <Button className="bg-primary-300 hover:bg-primary-200" onClick={handlePushButton}>Push</Button>
+    }
+     else if (commit.push === true && commit.user._id != currUser._id ) {
       if(pull){
         return <Button className="bg-success-300 hover:bg-success-200">Pulled</Button>
       } else {
@@ -73,6 +90,27 @@ async function handleCompleteTask(evt,subtaskId){
     } 
 
   }
+  // function renderButton(){
+  //   if (commit.push === false && commit.user._id === currUser._id) {
+  //       return <Button className="bg-primary-300 hover:bg-primary-200" onClick={handlePushButton}>Push</Button>
+  //   } else if(commit.push === true && commit.user._id === currUser._id){
+  //     return <Button className="bg-success-300 hover:bg-success-200">pushed</Button>
+   
+  //   } else if (commit.push === true && commit.user._id != currUser._id ) {
+  //     if(pull){
+  //       return <Button className="bg-success-300 hover:bg-success-200">Pulled</Button>
+  //     } else {
+
+  //       return <Button onClick={handlePullButton} className="bg-secondary-300 hover:bg-secondary-200">Pull</Button>
+  //     }
+  //   } 
+  //    else if (commit.push === false && commit.user._id != currUser._id){
+  //     return <Button className="bg-warning-300 hover:bg-warning-200" >In progress</Button>
+  //   } 
+
+  // }
+
+  
 return(
 
 
@@ -80,18 +118,31 @@ return(
 
 
 <div>
-  <div className="min-h-unit-24" onClick={()=>handleActiveState(commitId)}>
+  <div className="min-h-unit-24 flex items-center relative" onClick={()=>{
+         handleActiveState(commitId,testTasks,currUser._id,commit.user._id)
+
+    }}>
   {/* <button onClick={setActiveState(activeState * -1)}> */}
-<Card  className=" min-h-unit-24 mt-5  flex-row items-center">
+<Card  className="basis-full min-h-unit-24 mt-5   flex-row items-center">
 <CardBody   className="justify-center" >
   <div >{commit.name}</div>
+  
 </CardBody>
 <div className="flex">
 {renderButton()}
+
+
+
+
 <Button> <Link to={`commit/${commit._id}`}><h1 className="text-white">sub tasks</h1></Link></Button>
 </div>
 </Card>
+{testTasks[0] && currUser._id === commit.user._id?<span class="material-symbols-outlined absolute -right-10 rounded-full mt-5  bg-gray-800">
+expand_more
+</span> : "" }
+
 </div>
+
 <SubTakListHomeView commit={commit} activeState={activeState} activeCommit={activeCommit} handleActiveState={handleActiveState} commitId={commitId}  />
 {/* 
 {activeState === 1 && activeCommit === commitId?<Card className="bg-black border-1 -mt-4 rounded-tr-none rounded-tl-none rounded-none" >

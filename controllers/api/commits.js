@@ -5,6 +5,7 @@ module.exports = {
     createCommit,
     pushCommit,
     pullCommit,
+    findPushed,
     findPull,
 }
 
@@ -32,10 +33,18 @@ console.log("pull")
     res.json(pull)
 } 
 
+async function findPushed(req, res) {
+    const pushed = await Commit.findOne({_id: req.body.commitId, user: req.body.userId})
+    console.log(req.body.commitId)
+    console.log(pushed,"=====")
+    // await pull.save()
+    res.json(pushed)
+}
+
 async function findPull(req, res) {
     const pull = await PullCommit.findOne({commit: req.body.commitId, user: req.body.userId})
     
-    console.log(pull)
+    // console.log(pull,"++++++")
     
     // await pull.save()
     res.json(pull)

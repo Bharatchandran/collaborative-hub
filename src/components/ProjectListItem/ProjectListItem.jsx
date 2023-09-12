@@ -3,7 +3,7 @@ import {Card, CardHeader, CardBody, CardFooter, Avatar, Button, AvatarGroup} fro
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import * as projectAPI from "../../utilities/project-api"
-export default function ProjectListItem({project, selectedProject, active}){
+export default function ProjectListItem({project, selectedProject, active, }){
   const [projectOwner, setProjectOwner] = useState("12") 
   useEffect(function (){
     async function getProjectOwner() {
