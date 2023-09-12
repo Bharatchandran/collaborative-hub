@@ -34,31 +34,4 @@ export default function AuthPage({ setUser }) {
     
   );
 }
-// export default function AuthPage({ setUser }) {
-//   const [showSignUp, setShowSignUp] = useState(false);
-//   return (
-//     <main className='flex  w-full items-center justify-center'> 
-// <div className='flex h-screen items-center '>
-// <div className=' flex justify-center w-[1300px] '>
-//   <div className='w-[60%] h-[800px] flex justify-center items-center bg-gray-800'>
-
-// <div className='w-[70%]'>
-//   <h1>{showSignUp ? 'Log In' : 'Sign Up'}</h1>
-// { showSignUp ?
-//           <SignUpForm setUser={setUser} setShowSignUp={setShowSignUp} showSignUp={showSignUp} />
-//           :
-//           <LoginForm setUser={setUser} setShowSignUp={setShowSignUp} showSignUp={showSignUp} />
-//       }
-// </div>
-// </div>
-
-// </div>
-// <div>
-//   <img src="" alt="" />
-// </div>
-
-// </div>   
-//     </main>
-    
-//   );
-// }
+// test test
