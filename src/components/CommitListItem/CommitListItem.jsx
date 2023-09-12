@@ -77,6 +77,18 @@ async function handleCompleteTask(evt,subtaskId){
 
   }
 
+  function renderExpandButton() {
+    if(currUser._id === commit.user._id){
+      return (<span className="material-symbols-outlined absolute -right-10 rounded-full mt-5  bg-gray-800">
+        expand_more
+        </span>)
+    } else if (testTasks && testTasks[0]){
+      return (<span className="material-symbols-outlined absolute -right-10 rounded-full mt-5  bg-gray-800">
+        expand_more
+        </span>)
+    }
+  }
+
 return(
   <div>
     <div className="min-h-unit-24 flex items-center relative" onClick={()=>{
@@ -92,12 +104,12 @@ return(
           {/* <Button> <Link to={`commit/${commit._id}`}><h1 className="text-white">sub tasks</h1></Link></Button> */}
         </div>
       </Card>
-      {testTasks && currUser._id === commit.user._id?<span className="material-symbols-outlined absolute -right-10 rounded-full mt-5  bg-gray-800">
+      {/* {testTasks && currUser._id === commit.user._id?<span className="material-symbols-outlined absolute -right-10 rounded-full mt-5  bg-gray-800">
       expand_more
-      </span> : "" }
+      </span> : "" } */}
+      {renderExpandButton()}
     </div>
     <SubTakListHomeView commit={commit} activeState={activeState} activeCommit={activeCommit} handleActiveState={handleActiveState} commitId={commit._id}  />
-    
   </div>
 )
 }
