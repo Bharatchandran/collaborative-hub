@@ -4,24 +4,61 @@ import LoginForm from '../../components/LoginForm/LoginForm';
 
 export default function AuthPage({ setUser }) {
   const [showSignUp, setShowSignUp] = useState(false);
+  const [showAuth, setShowAuth] = useState(false)
   return (
-    <main className='flex'> 
-      <h1>AuthPage</h1>
-
-<div>
-  <h1>Test</h1>
-</div>
-<div>
-  test2
-</div>
-
-      <button onClick={() => setShowSignUp(!showSignUp)}>{showSignUp ? 'Log In' : 'Sign Up'}</button>
-      { showSignUp ?
-          <SignUpForm setUser={setUser} />
+    <main className='min-h-screen'>
+      {/* <nav className='w-full bg-red-800 h-14'>Navbar</nav> */}
+      {/* <div className='flex h-[800px]'> */}
+      <div className='flex h-screen'>
+        <div className='basis-1/2 bg-gray-900 flex flex-col items-center justify-center'>
+          <h1 className='text-8xl max-w-3xl'>Want to know what your team mates are working on?</h1>
+          <p className='max-w-3xl mt-5 text-2xl'>Streamline collaboration with our GitHub project management app. Log your tasks, avoid overlap, and stay in sync with your team's work. Say goodbye to project conflicts and hello to efficient planning.</p>
+          <button onClick={() => setShowAuth(!showAuth)}>Explore</button>
+          
+        </div>
+        <div className='bg-gray-700 basis-1/2 flex justify-center items-center'>
+          <div className=''>
+        {showAuth? <div > 
+          { showSignUp ?
+          <SignUpForm setUser={setUser} setShowSignUp={setShowSignUp} showSignUp={showSignUp} />
           :
-          <LoginForm setUser={setUser} />
+          <LoginForm setUser={setUser} setShowSignUp={setShowSignUp} showSignUp={showSignUp} />
       }
+          
+          </div> : "" }
+          </div>
+        </div>
+
+      </div>
     </main>
     
   );
 }
+// export default function AuthPage({ setUser }) {
+//   const [showSignUp, setShowSignUp] = useState(false);
+//   return (
+//     <main className='flex  w-full items-center justify-center'> 
+// <div className='flex h-screen items-center '>
+// <div className=' flex justify-center w-[1300px] '>
+//   <div className='w-[60%] h-[800px] flex justify-center items-center bg-gray-800'>
+
+// <div className='w-[70%]'>
+//   <h1>{showSignUp ? 'Log In' : 'Sign Up'}</h1>
+// { showSignUp ?
+//           <SignUpForm setUser={setUser} setShowSignUp={setShowSignUp} showSignUp={showSignUp} />
+//           :
+//           <LoginForm setUser={setUser} setShowSignUp={setShowSignUp} showSignUp={showSignUp} />
+//       }
+// </div>
+// </div>
+
+// </div>
+// <div>
+//   <img src="" alt="" />
+// </div>
+
+// </div>   
+//     </main>
+    
+//   );
+// }

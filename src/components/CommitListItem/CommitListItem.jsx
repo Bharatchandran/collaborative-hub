@@ -26,12 +26,14 @@ export default function CommitListItem({commit, activeState, activeCommit, handl
 console.log(commitId)
   async function handlePushButton(){
     const pushCommit = await commitAPI.pushCommit(commit._id, commit.user)
-    // setProjectPush(projectPush * -1)
+    setProjectPush(projectPush * -1)
     setButtonState(buttonState * -1)
   }
   async function handlePullButton(){
     const pushCommit = await commitAPI.pullCommit(commit._id, currUser._id)
     setPull(true)
+    setButtonState(buttonState * -1)
+
   }
 async function handleCompleteTask(evt,subtaskId){
   console.log(!!evt.value)
@@ -124,8 +126,9 @@ return(
     }}>
   {/* <button onClick={setActiveState(activeState * -1)}> */}
 <Card  className="basis-full min-h-unit-24 mt-5   flex-row items-center">
-<CardBody   className="justify-center" >
-  <div >{commit.name}</div>
+<CardBody   className="justify-center relative"  >
+  <div className="absolute text-slate-300 -top-1 z-40">@{commit.user.name}</div>
+  <div className="text-2xl" >{commit.name}</div>
   
 </CardBody>
 <div className="flex">
@@ -134,10 +137,10 @@ return(
 
 
 
-<Button> <Link to={`commit/${commit._id}`}><h1 className="text-white">sub tasks</h1></Link></Button>
+{/* <Button> <Link to={`commit/${commit._id}`}><h1 className="text-white">sub tasks</h1></Link></Button> */}
 </div>
 </Card>
-{testTasks[0] && currUser._id === commit.user._id?<span class="material-symbols-outlined absolute -right-10 rounded-full mt-5  bg-gray-800">
+{testTasks && currUser._id === commit.user._id?<span className="material-symbols-outlined absolute -right-10 rounded-full mt-5  bg-gray-800">
 expand_more
 </span> : "" }
 

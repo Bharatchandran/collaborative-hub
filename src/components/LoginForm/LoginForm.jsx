@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import * as usersService from '../../utilities/users-service';
-
-export default function LoginForm({ setUser }) {
+import { Button } from "@nextui-org/react";
+export default function LoginForm({ setUser, setShowSignUp, showSignUp }) {
   const [credentials, setCredentials] = useState({
     email: '',
     password: ''
@@ -28,15 +28,16 @@ export default function LoginForm({ setUser }) {
   }
 
   return (
-    <div>
-      <div className="form-container">
+    <div className=''>
+      <div className='bg-black bg-opacity-70 p-20 rounded-xl'>
         <form autoComplete="off" onSubmit={handleSubmit}>
           <label>Email</label>
           <input type="text" name="email" value={credentials.email} onChange={handleChange} required />
           <label>Password</label>
           <input type="password" name="password" value={credentials.password} onChange={handleChange} required />
-          <button type="submit">LOG IN</button>
+          <Button type="submit">LOG IN</Button>
         </form>
+        <Button onClick={() => setShowSignUp(!showSignUp)}>{showSignUp ? 'Log In' : 'Sign Up'}</Button>
       </div>
       <p className="error-message">&nbsp;{error}</p>
     </div>

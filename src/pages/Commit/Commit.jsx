@@ -28,10 +28,10 @@ export default function Commit(){
     }
     return(
         <div className="flex flex-col items-center">
-        <div className="  flex justify-between items-center w-[67%] ml-4  ">
+        <div className="  flex justify-between items-center w-[67%] ml-4 mt-4 ">
         <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Commits</span> </h1>
 
-        <button onClick={()=> setCreateCommit(!createCommit)} >+</button>
+        <Button color="warning" onClick={()=> setCreateCommit(!createCommit)} >Create</Button>
         </div>
         {createCommit ? <div className="flex justify-center bg-opacity-60 rounded-xl absolute top-[30%]  w-[700px] z-40 h-[500px] bg-gray-600"> 
         <button className="absolute left-5 top-5" onClick={()=> setCreateCommit(!createCommit)}>X</button> 

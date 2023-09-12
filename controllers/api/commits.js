@@ -11,8 +11,10 @@ module.exports = {
 
 async function getAllCommits(req, res) {
     const projects = await Commit.find({ project:req.params.id}).sort('-createdAt').populate('user');
-   
-    res.json(projects)
+    const filteredProjectsPushTrue = projects.filter((project) => project.push === true).sort((a,b)=> b.updatedAt - a.updatedAt)
+    const filteredProjectsPushFalse = projects.filter((project) => project.push === false)
+    const filteredProjects = [...filteredProjectsPushFalse, ...filteredProjectsPushTrue]
+    res.json(filteredProjects)
 }
 
 async function createCommit(req, res){
@@ -29,6 +31,13 @@ async function pushCommit(req, res) {
 
 async function pullCommit(req, res) {
     const pull = await PullCommit.create({commit: req.body.commitId, user: req.body.userId, pull: true })
+    const comparePush = await Commit.findOne({_id : req.body.commitId})
+    const pushed = await Commit.find({createdAt: { $lt : comparePush.createdAt}})
+    pushed.forEach(async (el) => {
+        await PullCommit.create({commit: el._id, user: req.body.userId, pull: true })
+    })
+
+    console.log(pushed)
 console.log("pull")
     res.json(pull)
 } 

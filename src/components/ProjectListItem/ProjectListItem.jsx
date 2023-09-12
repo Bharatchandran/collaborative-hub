@@ -5,12 +5,19 @@ import { Link } from "react-router-dom";
 import * as projectAPI from "../../utilities/project-api"
 export default function ProjectListItem({project, selectedProject, active, }){
   const [projectOwner, setProjectOwner] = useState("12") 
+  const [projectMembers, setProjectMembers] = useState([]) 
   useEffect(function (){
     async function getProjectOwner() {
       const owner = await projectAPI.getProjectOwner(project.user)
       setProjectOwner(owner)
     }
     getProjectOwner()
+    async function getProjectMembers(projectId) {
+      const members = await projectAPI.getProjectMembers(projectId)
+      setProjectMembers(members)
+    }
+    getProjectMembers(project._id)
+    console.log(projectMembers)
   },[])
     return (
   //   <Card className="max-w-[400px] bg-black ">
@@ -83,6 +90,7 @@ export default function ProjectListItem({project, selectedProject, active, }){
   <CardFooter className="gap-3 flex justify-between">
     <div className="flex gap-1">
     <AvatarGroup isBordered max={3} total={10}>
+     
       <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
       <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
       <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />

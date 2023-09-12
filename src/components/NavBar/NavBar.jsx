@@ -27,35 +27,20 @@ const [activeLink, setActiveLink] = useState("")
 </div> */
 
 
-<Navbar className='h-20'>
-<NavbarBrand>
-  {/* <AcmeLogo /> */}
-  <p className="font-bold text-inherit">ACME</p>
-</NavbarBrand>
-<NavbarContent className="hidden sm:flex gap-4 " justify="center">
-  <NavbarItem>
-  <Link className='text-3xl' to="/" >Projects</Link>
-  </NavbarItem>
-  <NavbarItem isActive>
-    <Link className='text-3xl' href="#" aria-current="page">
-      Customers
-    </Link>
-  </NavbarItem>
-  <NavbarItem>
-    <Link className='text-3xl' color="foreground" href="#">
-      Integrations
-    </Link>
-  </NavbarItem>
-</NavbarContent>
-<NavbarContent justify="end">
- 
-  <NavbarItem>
-    <Button className=''  as={Link} color="primary" href="#" variant="flat">
-    <Link to="" onClick={handleLogOut}>Log Out</Link>
-    </Button>
-  </NavbarItem>
-</NavbarContent>
-</Navbar>
+<div className='w-full h-20 bg-[#0d131b]  flex justify-between items-center'>
+<div className='ml-10 text-4xl'>Prototype👨‍💻</div>
+<div>
+
+<Link className='m-4 text-2xl font-bold text-' to="/" >Projects</Link> 
+
+</div>
+<div className='flex items-center justify-center'>
+<h4 className='m-4 text-3xl'>Welcome {user.name}</h4>
+<Link className='m-4 mt-6' to="" onClick={handleLogOut}><span class="material-symbols-outlined">
+logout
+</span></Link>
+</div>
+</div>
 
   );
 }
