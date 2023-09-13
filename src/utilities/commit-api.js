@@ -14,8 +14,8 @@ export function pushCommit(commitId, userId) {
     return sendRequest(`${BASE_URL}/push`,'POST',{commitId, userId})
 }
 
-export function pullCommit(commitId, userId) {
-    return sendRequest(`${BASE_URL}/pull`,'POST',{commitId, userId})
+export function pullCommit() {
+    return sendRequest(`${BASE_URL}/pull`,'POST')
 }
 
 export function findPushed(commitId, userId){

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import CommitListItem from "../CommitListItem/CommitListItem"
-export default function CommitList({commits, setProjectPush, projectPush}) {
+export default function CommitList({commits, setProjectPush, projectPush, pull, setPull}) {
     const [activeState, setActiveState] = useState(-1)
     const [activeCommit, setActiveCommit] = useState("")
 
@@ -16,7 +16,7 @@ export default function CommitList({commits, setProjectPush, projectPush}) {
            }
 
     const commitList = commits.map(commit => <CommitListItem key={commit._id} activeState={activeState} 
-        activeCommit={activeCommit} className="max-w-2xl" commit={commit} handleActiveState={handleActiveState} setProjectPush={setProjectPush} projectPush={projectPush} />)
+        activeCommit={activeCommit} className="max-w-2xl" commit={commit} handleActiveState={handleActiveState} setProjectPush={setProjectPush} projectPush={projectPush} pull={pull} setPull={setPull} />)
     
 return(
     <div className=" w-8/12 ">{commitList}</div>

@@ -33,12 +33,12 @@ export default function SubTakListHomeView({commit, activeState, activeCommit, h
     
     return(
         <div>
-            {activeState === 1 && activeCommit === commitId?<Card className="bg-black border-1 -mt-4 rounded-tr-none rounded-tl-none rounded-none" >
+            {activeState === 1 && activeCommit === commitId ?<Card className="bg-black border-1 -mt-4 rounded-tr-none rounded-tl-none rounded-none" >
             {commit.user._id === user._id && commit.push != true? <CardHeader className="w-full">
             <form  className="w-full bg-black" onSubmit={handleSubmit} > 
                 <input placeholder="Enter subtask" className="w-[405%] h-10 bg-black "  required value={newSubTask} onChange={(evt) => setNewSubTask(evt.target.value)} />
             </form>
-            </CardHeader> : ""}
+            </CardHeader> :""}
             { testTasks.map(subTask => <CardBody className="border-1 ">
                 <div className="flex justify-between">
                     {subTask.task}

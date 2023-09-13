@@ -6,13 +6,13 @@ import { getUser } from '../../utilities/users-service';
 import * as subtaskAPI from  "../../utilities/subtask-api"
 import SubTakListHomeView from "../SubTakListHomeView/SubTakListHomeView";
 
-export default function CommitListItem({commit, activeState, activeCommit, handleActiveState, setProjectPush, projectPush}){
+export default function CommitListItem({commit, activeState, activeCommit, handleActiveState, setProjectPush, projectPush , pull, setPull}){
   const [user, setUser] = useState(getUser());
   const [newSubTask, setNewSubTask] = useState("")
   const [testTasks, setTestTasks] = useState([])
   const userId = user._id
   const [push, setPush] = useState("")
-  const [pull, setPull] = useState(false)
+  // const [pull, setPull] = useState(false)
   const [currUser, setCurrUser] = useState(getUser());
  const [buttonState, setButtonState] = useState(-1)
 // console.log(projectPush)
@@ -55,26 +55,20 @@ async function handleCompleteTask(evt,subtaskId){
   },[newSubTask, buttonState])
 
  
-
- 
   function renderButton(){
-    
     if(push && push.push === true && push.user === currUser._id){
-      return <Button className="bg-success-300 hover:bg-success-200">pushed</Button>
-  
-   
+      return <Button  color="success" variant="shadow" className="t font-bold">pushed</Button>
     } else if (commit.push === false && commit.user._id === currUser._id) {
-        return <Button className="bg-primary-300 hover:bg-primary-200" onClick={handlePushButton}>Push</Button>
+        return <Button variant="ghost" color="success" onClick={handlePushButton}>Push</Button>
     } else if (commit.push === true && commit.user._id != currUser._id ) {
         if(pull){
-          return <Button className="bg-success-300 hover:bg-success-200">Pulled</Button>
+          return <Button color="secondary" variant="shadow" className="font-bold text-black" >Pulled</Button>
         } else {
-          return <Button onClick={handlePullButton} className="bg-secondary-300 hover:bg-secondary-200">Pull</Button>
+          return <Button variant="ghost" color="secondary" >Pull</Button>
         }
     } else if (commit.push === false && commit.user._id != currUser._id){
-        return <Button className="bg-warning-300 hover:bg-warning-200" >In progress</Button>
+        return <Button color="warning" variant="shadow"  className="font-bold">In progress</Button>
     } 
-
   }
 
   function renderExpandButton() {
@@ -104,9 +98,6 @@ return(
           {/* <Button> <Link to={`commit/${commit._id}`}><h1 className="text-white">sub tasks</h1></Link></Button> */}
         </div>
       </Card>
-      {/* {testTasks && currUser._id === commit.user._id?<span className="material-symbols-outlined absolute -right-10 rounded-full mt-5  bg-gray-800">
-      expand_more
-      </span> : "" } */}
       {renderExpandButton()}
     </div>
     <SubTakListHomeView commit={commit} activeState={activeState} activeCommit={activeCommit} handleActiveState={handleActiveState} commitId={commit._id}  />

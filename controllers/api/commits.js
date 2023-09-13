@@ -30,11 +30,20 @@ async function pushCommit(req, res) {
 }
 
 async function pullCommit(req, res) {
-    const pull = await PullCommit.create({commit: req.body.commitId, user: req.body.userId, pull: true })
-    const comparePush = await Commit.findOne({_id : req.body.commitId})
-    const pushed = await Commit.find({updatedAt: { $lt : comparePush.updatedAt}})
+    // const pull = await PullCommit.create({commit: req.body.commitId, user: req.body.userId, pull: true })
+    // const comparePush = await Commit.findOne({_id : req.body.commitId})
+    // const pushed = await Commit.find({updatedAt: { $lt : comparePush.updatedAt}})
+    // pushed.forEach(async (el) => {
+    //     await PullCommit.create({commit: el._id, user: req.body.userId, pull: true })
+    // })
+    // , user: {$ne: req.user._id}
+    const pull = await Commit.findOne({push: true,  user: {$ne: req.user._id}}).sort('-updatedAt')
+    console.log(pull,"===")
+    console.log(pull,"++++++")
+    const comparePush = await Commit.findOne({_id : pull._id})
+    const pushed = await Commit.find({updatedAt: { $lte : comparePush.updatedAt}})
     pushed.forEach(async (el) => {
-        await PullCommit.create({commit: el._id, user: req.body.userId, pull: true })
+        await PullCommit.create({commit: el._id, user: req.user._id, pull: true })
     })
     res.json(pull)
 } 
