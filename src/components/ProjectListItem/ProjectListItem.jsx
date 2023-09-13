@@ -1,4 +1,4 @@
-import {Card, CardHeader, CardBody, CardFooter, Avatar, Button, AvatarGroup} from "@nextui-org/react";
+import {Card, CardHeader, CardBody, CardFooter, Avatar, Button, AvatarGroup, DropdownMenu, DropdownItem, Dropdown,DropdownTrigger} from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import * as projectAPI from "../../utilities/project-api"
@@ -17,6 +17,7 @@ export default function ProjectListItem({project, selectedProject, active, }){
     async function getProjectMembers(projectId) {
       const members = await projectAPI.getProjectMembers(projectId)
       setProjectMembers(members)
+      console.log(members)
     }
     
     getProjectOwner()
@@ -46,15 +47,25 @@ export default function ProjectListItem({project, selectedProject, active, }){
       </CardBody>
       <CardFooter className="gap-3 flex justify-between">
         <div className="flex gap-1">
-        <AvatarGroup isBordered max={3} total={10}>
-        
-          <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c" />
+          <Dropdown>
+            <DropdownTrigger>
+        <AvatarGroup isBordered max={3} >
+         {projectMembers.map(member => <Avatar name={`${member.user.name}`} className="h-10 w-10 bg-black"/> )}
+         
         </AvatarGroup>
+        </DropdownTrigger>
+        <DropdownMenu aria-label="Dynamic Actions" items={projectMembers}>
+        {(item) => (
+          <DropdownItem
+            key={item._id}
+            color={item.key === "delete" ? "danger" : "default"}
+            className={item.key === "delete" ? "text-danger" : ""}
+          >
+            {item.user.name}
+          </DropdownItem>
+        )}
+      </DropdownMenu>
+        </Dropdown>
         </div>
         <div className="flex ml-6">
         <Button><Link to={`project/${project._id}`}><h1 className="text-white">Project Details</h1></Link></Button>

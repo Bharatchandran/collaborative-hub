@@ -24,3 +24,23 @@ export function findPushed(commitId, userId){
 export function findPull(commitId, userId){
     return sendRequest(`${BASE_URL}/pull/find`,'POST',{commitId, userId})
 }
+
+export function getAllPulledUsers(commitId){
+    return sendRequest(`${BASE_URL}/${commitId}/findPulledUsers`)
+
+}
+
+
+export function handleEditSubmit(commitId, editCommit){
+    return sendRequest(`${BASE_URL}/${commitId}/edit`, 'POST', {commitId, editCommit})
+
+}
+
+export function getCommit(commitId){
+    return sendRequest(`${BASE_URL}/${commitId}/get`)
+}
+
+export function handleDelete(commitId){
+    console.log("delete")
+    return sendRequest(`${BASE_URL}/commit/delete`, 'POST', {commitId})
+}

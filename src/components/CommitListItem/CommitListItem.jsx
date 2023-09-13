@@ -1,34 +1,52 @@
 
-import {Card, CardBody, Button, CardHeader} from "@nextui-org/react";
+import {Card, CardBody, Button, CardHeader, Avatar, AvatarGroup ,Chip, Dropdown, DropdownMenu, DropdownItem, DropdownTrigger} from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import * as commitAPI from "../../utilities/commit-api"
 import { getUser } from '../../utilities/users-service';
 import * as subtaskAPI from  "../../utilities/subtask-api"
 import SubTakListHomeView from "../SubTakListHomeView/SubTakListHomeView";
 
-export default function CommitListItem({commit, activeState, activeCommit, handleActiveState, setProjectPush, projectPush , pull, setPull}){
+export default function CommitListItem({commit, activeState, activeCommit, handleActiveState, setProjectPush, projectPush , pull, setPull, pullButtonState, setPullButtonState, reloadCommit, setReloadCommit}){
   const [user, setUser] = useState(getUser());
   const [newSubTask, setNewSubTask] = useState("")
   const [testTasks, setTestTasks] = useState([])
   const userId = user._id
   const [push, setPush] = useState("")
-  // const [pull, setPull] = useState(false)
+  const [thisCommit, setThisCommit] = useState([])
+  const [pulledCommit, setPulledCommit] = useState(false)
   const [currUser, setCurrUser] = useState(getUser());
  const [buttonState, setButtonState] = useState(-1)
+ const [pulledUsers, setPulledUsers] = useState([])
+ const [editState, setEditState] = useState(false)
+ const[editComplete, setEditComplete] = useState("")
+ const [editCommit, setEditCommit] = useState("")
 // console.log(projectPush)
   async function handlePushButton(){
     const pushCommit = await commitAPI.pushCommit(commit._id, commit.user)
     setProjectPush(projectPush * -1)
     setButtonState(buttonState * -1)
   }
-  async function handlePullButton(){
-    const pushCommit = await commitAPI.pullCommit(commit._id, currUser._id)
-    setPull(true)
-    setButtonState(buttonState * -1)
-
-  }
+  
 async function handleCompleteTask(evt,subtaskId){
   const handleTask = await subtaskAPI.handleCompleteTask(subtaskId)
+}
+
+
+async function handleSubmit(evt) {
+  evt.preventDefault()
+  handleEditSubmit(commit._id, editCommit)
+  setEditState(!editState)
+}
+
+async function handleEditSubmit(commitId, editCommit){
+  const commit = await commitAPI.handleEditSubmit(commitId, editCommit)
+  setEditComplete("complete")
+ 
+}
+
+async function handleDelete(commitId) {
+  await commitAPI.handleDelete(commitId)
+  setReloadCommit(!reloadCommit)
 }
 
   useEffect(function(){
@@ -39,7 +57,8 @@ async function handleCompleteTask(evt,subtaskId){
 
       async function findPull(commitId, userId){
         const pull = await commitAPI.findPull(commitId, userId)
-        setPull(pull)
+        // setPull(pull)
+        setPulledCommit(pull)
       }
 
       async function findPushed(commitId,userId){
@@ -47,21 +66,36 @@ async function handleCompleteTask(evt,subtaskId){
         setPush(pushCommit)
         console.log(push)
       }
-
+      async function getAllPulledUsers(commitId){
+         const pulledUsers = await commitAPI.getAllPulledUsers(commitId)
+         setPulledUsers(pulledUsers)
+         console.log(pulledUsers)
+      }
+      async function getCommit(commitId){
+        const commit = await commitAPI.getCommit(commitId)
+        setThisCommit(commit)
+        console.log("use use")
+      }
+      getCommit(commit._id)
+      getAllPulledUsers(commit._id)
       getAllSubTasks(commit._id)
       findPushed(commit._id,userId)
       findPull(commit._id, userId)
 
-  },[newSubTask, buttonState])
+  },[newSubTask, buttonState, pull,editCommit, editComplete])
 
- 
+ function handleEdit(){
+    setEditState(true)
+    setEditCommit(thisCommit.name)
+    console.log(editState)
+ }
   function renderButton(){
     if(push && push.push === true && push.user === currUser._id){
       return <Button  color="success" variant="shadow" className="t font-bold">pushed</Button>
     } else if (commit.push === false && commit.user._id === currUser._id) {
         return <Button variant="ghost" color="success" onClick={handlePushButton}>Push</Button>
     } else if (commit.push === true && commit.user._id != currUser._id ) {
-        if(pull){
+        if(pulledCommit){
           return <Button color="secondary" variant="shadow" className="font-bold text-black" >Pulled</Button>
         } else {
           return <Button variant="ghost" color="secondary" >Pull</Button>
@@ -72,35 +106,98 @@ async function handleCompleteTask(evt,subtaskId){
   }
 
   function renderExpandButton() {
-    if(currUser._id === commit.user._id){
-      return (<span className="material-symbols-outlined absolute -right-10 rounded-full mt-5  bg-gray-800">
+    if(currUser._id === commit.user._id && commit.push != true ){
+      // return (<div className="bg-black h-[90px] w-10"> <span className="material-symbols-outlined absolute -right-10 rounded-full mt-5  bg-gray-800"
+      // >
+      return (<div className=" h-[95px] w-8 flex justify-center items-center mt-5 rounded-r-full absolute -right-10 "> <span className="material-symbols-outlined "
+      >
         expand_more
-        </span>)
+        </span></div>)
     } else if (testTasks && testTasks[0]){
-      return (<span className="material-symbols-outlined absolute -right-10 rounded-full mt-5  bg-gray-800">
+      return (<div className=" h-[95px] w-10 flex justify-center items-center mt-5 rounded-r-full absolute -right-10 "> <span className="material-symbols-outlined "
+      >
         expand_more
-        </span>)
+        </span></div>)
     }
   }
 
 return(
   <div>
     <div className="min-h-unit-24 flex items-center relative" onClick={()=>{
-          handleActiveState(commit._id,testTasks,currUser._id,commit.user._id)
+          handleActiveState(commit._id,testTasks,currUser._id,commit.user._id, commit)
       }}>
+        <div className="absolute -right-10  top-0">
+ <Dropdown >
+      <DropdownTrigger >
+        <Button 
+        className=" h-4 border-none hover:bg-none"
+          variant="light" 
+        >
+          <span class="material-symbols-outlined">
+settings
+</span>
+        </Button>
+      </DropdownTrigger>
+      <DropdownMenu aria-label="Dynamic Actions">
+        
+          <DropdownItem><div onClick={handleEdit}>edit</div></DropdownItem>
+          <DropdownItem><div onClick={() => handleDelete(commit._id)}>delete</div></DropdownItem>
+        
+      </DropdownMenu>
+    </Dropdown>
+
+    </div>
+   
       <Card  className="basis-full min-h-unit-24 mt-5   flex-row items-center">
         <CardBody   className="justify-center relative"  >
         <div className="absolute text-slate-300 -top-1 z-40">@{commit.user.name}</div>
-        <div className="text-2xl" >{commit.name}</div>
+        <div className="text-2xl" >{thisCommit.name}</div>
         </CardBody>
-        <div className="flex">
+        <div className="flex ">
+          {pulledUsers && commit.push? <Dropdown>
+          <DropdownTrigger>
+        <AvatarGroup className="flex mr-10 " isBordered max={3}>
+          {/* {pulledUsers.map(pulledUser => <Chip className="shrink" color="default">{pulledUser.user.name}</Chip>)} */}
+          {pulledUsers.map(pulledUser => <Avatar name={`${pulledUser.user.name}`} className="h-10 w-10 bg-black"/>)}
+       
+    </AvatarGroup>
+    </DropdownTrigger>
+    <DropdownMenu aria-label="Dynamic Actions" items={pulledUsers}>
+        {(item) => (
+          <DropdownItem
+            key={item._id}
+            color={item.key === "delete" ? "danger" : "default"}
+            className={item.key === "delete" ? "text-danger" : ""}
+          >
+            {item.user.name}
+          </DropdownItem>
+        )}
+      </DropdownMenu>
+
+    </Dropdown> : ""}
+          
+<div className="mr-4">
+
           {renderButton()}
+</div>
           {/* <Button> <Link to={`commit/${commit._id}`}><h1 className="text-white">sub tasks</h1></Link></Button> */}
         </div>
       </Card>
       {renderExpandButton()}
     </div>
     <SubTakListHomeView commit={commit} activeState={activeState} activeCommit={activeCommit} handleActiveState={handleActiveState} commitId={commit._id}  />
+  
+    <div>
+      {editState === true ? <div className="flex justify-center
+             bg-opacity-60 rounded-xl absolute top-[30%]  w-[700px] z-40 h-[500px] bg-gray-600">  
+             <button className="absolute left-5 top-5" onClick={()=> setEditState(!editState)}>X</button> 
+             <form className="flex flex-col justify-center items-center" onSubmit={handleSubmit}>
+                    <h1 className="text-4xl -mt-10 mb-10">Edit Commit</h1>
+                    <input className="w-[500px] mb-5 bg-gray-900 text-white" required value={editCommit} onChange={(evt) => setEditCommit(evt.target.value)} />
+                    <Button color="primary" type="submit">Submit</Button>
+                    </form></div>:"" }
+      
+    </div>
   </div>
 )
 }

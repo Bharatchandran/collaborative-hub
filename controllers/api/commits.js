@@ -1,3 +1,4 @@
+const commit = require('../../models/commit');
 const Commit = require('../../models/commit');
 const PullCommit = require('../../models/pullcommit')
 module.exports = {
@@ -7,6 +8,10 @@ module.exports = {
     pullCommit,
     findPushed,
     findPull,
+    getAllPulledUsers,
+    handleEditSubmit,
+    getCommit,
+    handleDelete
 }
 
 async function getAllCommits(req, res) {
@@ -58,3 +63,26 @@ async function findPull(req, res) {
     res.json(pull)
 }
 
+async function getAllPulledUsers(req, res) {
+    const pulledUsers = await PullCommit.find({commit: req.params.id}).populate('user')
+    console.log(pulledUsers)
+    res.json(pulledUsers)
+}
+
+async function handleEditSubmit(req, res) {
+    const commit = await Commit.findOne({_id: req.body.commitId})
+    commit.name = req.body.editCommit
+    await commit.save()
+    res.json(commit)
+}
+
+async function getCommit(req, res) {
+    const commit = await Commit.findOne({_id: req.params.id})
+    res.json(commit)
+}
+
+
+async function handleDelete(req, res) {
+    const commit = await Commit.deleteOne({_id: req.body.commitId})
+    res.json(commit)
+}

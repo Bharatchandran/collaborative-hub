@@ -32,6 +32,8 @@ async function getProjectOwner(req, res){
 }
 
 async function getProjectMembers(req, res) {
-    const members = await ProjectMember.find({project: req.body.projectId})
+    
+    const members = await ProjectMember.find({project: req.params.id}).populate('user')
+    console.log(members)
     res.json(members)
 }

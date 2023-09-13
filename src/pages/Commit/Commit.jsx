@@ -11,6 +11,7 @@ export default function Commit(){
     const[commits, setCommits] = useState([])
     const[createCommit, setCreateCommit] = useState(false)
     const [projectPush, setProjectPush] = useState(-1)
+    const [reloadCommit, setReloadCommit] = useState(-1)
     const [pull, setPull] = useState(false)
     let {projectId} = useParams();
 
@@ -24,7 +25,7 @@ export default function Commit(){
 
         getAllCommits(projectId)
         
-    },[newCommit, projectPush])
+    },[newCommit, projectPush, reloadCommit])
 
     async function handleSubmit(evt) {
         evt.preventDefault();
@@ -61,9 +62,11 @@ export default function Commit(){
                     </form>
             </div>
             :"" }
+            {commits && commits[0]?
             <div className="flex  w-full justify-center">
-                <CommitList key={"CommitListInCommit"} commits={commits} setProjectPush={setProjectPush} projectPush={projectPush} pull={pull} setPull={setPull} />
-            </div>
+                <CommitList key={"CommitListInCommit"} commits={commits} setProjectPush={setProjectPush} projectPush={projectPush} pull={pull} setPull={setPull}  reloadCommit={reloadCommit} setReloadCommit={setReloadCommit} />
+                
+            </div> : <div className="flex justify-center items-center mt-20"><h1 className="text-4xl">No commits</h1></div>     }
         </div>
         
     )
