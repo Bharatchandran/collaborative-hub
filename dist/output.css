@@ -3309,6 +3309,22 @@ html {
   height: var(--nextui-spacing-unit-8);
 }
 
+.h-\[70\%\] {
+  height: 70%;
+}
+
+.h-\[400px\] {
+  height: 400px;
+}
+
+.h-\[900px\] {
+  height: 900px;
+}
+
+.h-4\/5 {
+  height: 80%;
+}
+
 .max-h-64 {
   max-height: 16rem;
 }
