@@ -17,7 +17,7 @@ export default function App() {
           <>
             <NavBar user={user} setUser={setUser} />
             {/* <div className='min-h-screen bg-[#42033D]'> */}
-            <div className='min-h-screen bg-[#321111]'>
+            <div className='min-h-screen bg-gradient-to-r from-red-900 to-slate-900'>
             <Routes>
               {/* Route components in here */}
               <Route path="/" element={<Project />} />

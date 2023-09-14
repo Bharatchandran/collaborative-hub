@@ -76,14 +76,14 @@ export default function ProjectListItem({project, selectedProject, active,reload
   },[editComplete, editState, editProjectDescription])
   return (
     <div className="flex  justify-center w-10/12 ">
-    {!editState? <Card className="mt-10 mb-10 w-full ">
+    {!editState? <Card className="mt-10 bg-gradient-to-r from-slate-900 to-slate-800   mb-10 w-full ">
     
     <div className="absolute top-2 -right-0 z-40">
     {project.user === currUser._id?
     <Dropdown  >
     <DropdownTrigger >
       <Button 
-      className=" h-4 border-none hover:bg-none"
+      className=" h-4 border-none h-10 hover:bg-none"
         variant="light" 
       >
         <span class="material-symbols-outlined">
@@ -109,11 +109,11 @@ settings
          {/* <Avatar isBordered radius="full" size="md" src="/avatars/avatar-1.png" /> */}
          <div className="flex w-full  flex-col gap-1 items-start justify-center">
            <h5 className=" ml-8 mb-2 text-xl tracking-tight text-default-400">@{projectOwner.name}</h5>
-           <h4 className=" bg-yellow-900  flex items-center w-full h-12    ml-7 rounded-t-xl  text-2xl font-semibold leading-none text-default-600"><span className="ml-4">{thisProject.name}</span></h4>
+           <h4 className=" bg-gradient-to-r from-stone-600 to-stone-800  flex items-center w-full h-12    ml-7 rounded-t-xl  text-2xl font-semibold leading-none text-default-600"><span className="ml-4">{thisProject.name}</span></h4>
          </div>
        </div>
      </CardHeader>
-     <CardBody className="flex justify-center ml-10 bg-orange-900 min-h-unit-12 w-3/9 rounded-b-xl px-3 py-0 text-small text-default-40 overflow-hidden">
+     <CardBody className="flex justify-center ml-10 bg-gradient-to-r from-blue-900 to-indigo-900 min-h-unit-12 w-3/9 rounded-b-xl px-3 py-0 text-small text-default-40 overflow-hidden">
        <p className="ml-3 ">
          {thisProject.description}
          
@@ -154,7 +154,7 @@ settings
  <div className="flex flex-col items-center relative  w-2/4">
    <Button className="absolute left-0" onClick={()=> setEditState(!editState)}>X</Button>
   <h1 className="text-4xl font-bold mt-3">Edit</h1>
- <Card className="mt-10 mb-10 w-full bg-white text-black ">
+ <Card className="mt-10 mb-10 bg-gradient-to-r from-neutral-500 to-stone-700 w-full bg-white text-black ">
     
     <div className="absolute right-0 z-40">
   
@@ -166,7 +166,7 @@ settings
          <div className="flex flex-col gap-1 items-start justify-center">
            
            <h5 className="text-xs tracking-tight text-default-400">@{projectOwner.name}</h5>
-           <input className="w-fit  border-2 bg-white text-gray-800" required value={editProject} onChange={(evt) => setEditProject(evt.target.value)} />
+           <input className="w-fit bg-slate-200 border-1  text-gray-800" required value={editProject} onChange={(evt) => setEditProject(evt.target.value)} />
          </div>
        </div>
        <div>
@@ -174,15 +174,10 @@ settings
        </div>
      </CardHeader>
      <CardBody className="px-3 p-5 py-0 text-small text-default-40 overflow-hidden">
-     <textarea variant="bordered" className="w-full rounded-xl h-20   text-sm  border-2 bg-white text-gray-800" required value={editProjectDescription} onChange={(evt) => setEditProjectDescription(evt.target.value)} />
+     <textarea variant="bordered" className="w-full p-2 rounded-xl h-20   text-sm  border-2 bg-slate-200 text-gray-800" required value={editProjectDescription} onChange={(evt) => setEditProjectDescription(evt.target.value)} />
      {/* <p>{thisProject.description}</p> */}
      
-       <span className="pt-2">
-         #FrontendWithZoey 
-         <span className="py-2" aria-label="computer" role="img">
-           💻
-         </span>
-       </span>
+       
      </CardBody>
      </form>
      <CardFooter className="gap-3 flex justify-between">

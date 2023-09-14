@@ -131,7 +131,7 @@ return(
           <Dropdown >
           <DropdownTrigger >
             <Button 
-            className=" h-4 border-none hover:bg-none"
+            className=" h-8 border-none  "
               variant="light" 
             >
               <span class="material-symbols-outlined">
@@ -152,7 +152,7 @@ return(
 
     </div>
     {!editState? 
-      <Card  className="basis-full min-h-unit-24 mt-5   flex-row items-center">
+      <Card  className="basis-full min-h-unit-24 mt-5 bg-gradient-to-r from-stone-700 to-stone-900  flex-row items-center">
         <CardBody   className="justify-center relative"  >
         <div className="absolute text-slate-300 -top-1 z-40">@{commit.user.name}</div>
  <div className="text-2xl" >{thisCommit.name}</div>
@@ -194,7 +194,7 @@ return(
 : 
 
 
-<Card  className="basis-full min-h-unit-24 mt-5    flex-row items-center">
+<Card  className="basis-full min-h-unit-24 mt-5 bg-gradient-to-r from-neutral-400 to-stone-500    flex-row items-center">
   
         <Button onClick={()=> setEditState(!editState)}>X</Button>
         <CardBody   className="justify-center relative  "  >
@@ -202,7 +202,7 @@ return(
           <input className="w-11/12 mb-5 bg-white text-black " required value={editCommit} onChange={(evt) => setEditCommit(evt.target.value)} />
           <button  className="mb-8 w-1/12">Edit</button>
           </form>
-        <div className="absolute text-slate-300 -top-1 z-40">@{commit.user.name}</div>
+        <div className="absolute text-slate-900 top-3 z-40">@{commit.user.name}</div>
 
 
         
