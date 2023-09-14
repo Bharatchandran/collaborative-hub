@@ -47,14 +47,14 @@ export default function Project() {
             <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Projects</span> </h1>
             <Button color="warning" onClick={()=> setCreateProject(!createProject)} >Create</Button>
         </div>
-        {createProject ? <div className="flex justify-center bg-opacity-90 rounded-xl absolute top-[30%]  w-[700px] z-40 h-[500px] bg-black ">
-        <Button className="absolute left-5 top-5" onClick={()=> setCreateProject(!createProject)}>X</Button>    
+        {createProject ? <div className="flex justify-center bg-opacity-90 rounded-xl absolute top-[30%]  w-[700px] z-40 h-[500px] bg-gray-700 ">
+        <Button color="warning" className="absolute left-5 top-5" onClick={()=> setCreateProject(!createProject)}>X</Button>    
         <form className="flex flex-col justify-center items-center p-10" onSubmit={handleSubmit}>
-            <h1 className="text-4xl -mt-10 mb-10">Create Project</h1>
-            <label >Name</label>
+            <h1 className="text-4xl text-white font-bold relative top-7 -mt-10 mb-10">Create Project</h1>
+            <label className="text-white font-bold" >Name</label>
             <input className="w-[500px] mb-5 bg-gray-900 text-white" required value={newProject} onChange={(evt) => setNewProject(evt.target.value)} />
-            <label>Description</label>
-            <textarea className="w-full h-40 bg-gray-900" type="text" required value={newProjectDescription} onChange={(evt) => setNewProjectDescription(evt.target.value)} />
+            <label className="text-white font-bold">Description</label>
+            <textarea className="w-full text-white h-40 bg-gray-900" type="text" required value={newProjectDescription} onChange={(evt) => setNewProjectDescription(evt.target.value)} />
             <Button color="primary" type="submit">Submit</Button>
         </form>
         </div> : ""}

@@ -29,6 +29,7 @@ app.use('/api/projects', require('./routes/api/projects'));
 app.use('/api/project/', require('./routes/api/commits'));
 app.use('/api/commit', require('./routes/api/subtasks'));
 app.use('/api/project/addmembers', require('./routes/api/addmembers'));
+app.use('/api/project/messageGroup', require('./routes/api/groupmessage'));
 
 // The following "catch all" route (note the *) is necessary
 // to return the index.html on all non-AJAX/API requests

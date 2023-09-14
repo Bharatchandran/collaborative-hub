@@ -9,6 +9,7 @@ import {NextUIProvider} from "@nextui-org/react";
 import ProjectDetail from '../ProjectDetail/ProjectDetail';
 import SubTask from '../SubTask/SubTask';
 import AddMembers from '../AddMembers/AddMembers';
+import GroupMessage from '../GroupMessage/GroupMessage';
 export default function App() {
   const [user, setUser] = useState(getUser());
   return (
@@ -24,6 +25,7 @@ export default function App() {
               <Route path="project/:projectId" element={<ProjectDetail />} />
               <Route path="project/:projectId/commit/:commitId" element={<SubTask />} />
               <Route path=":projectId/addMembers" element={<AddMembers />} />
+              <Route path="project/:projectId/groupMessage" element={<GroupMessage />} />
             </Routes>
             </div>
           </>
