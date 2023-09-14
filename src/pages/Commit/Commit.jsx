@@ -62,7 +62,7 @@ const [message, setMessage] = useState("")
              bg-opacity-60 rounded-xl absolute top-[30%]  w-[700px] z-40 h-[500px] bg-gray-900"> 
                 <Button color="warning" className="absolute left-5 top-5" onClick={()=> setCreateCommit(!createCommit)}>X</Button> 
                 <form className="flex flex-col justify-center items-center" onSubmit={handleSubmit}>
-                    <h1 className="text-4xl font-bold text-white -mt-10 mb-10">Create Project</h1>
+                    <h1 className="text-4xl font-bold text-white -mt-10 mb-10">Create Commit</h1>
                     <input className="w-[500px] mb-5 bg-gray-900 text-white" required value={newCommit} onChange={(evt) => setNewCommit(evt.target.value)} />
                     <Button color="primary" type="submit">Submit</Button>
                     </form>

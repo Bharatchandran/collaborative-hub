@@ -38,8 +38,8 @@ export default class SignUpForm extends Component {
     const disable = this.state.password !== this.state.confirm;
     return (
       <div>
-        <div className="bg-black bg-opacity-70 p-20 rounded-xl">
-          <form autoComplete="off" onSubmit={this.handleSubmit}>
+        <div className="bg-black w-[700px] bg-opacity-70 p-20 rounded-xl">
+          <form className='flex flex-col w-full ' autoComplete="off" onSubmit={this.handleSubmit}>
             <label className='text-white font-bold'>Name</label>
             <input className='bg-white'   type="text" name="name" value={this.state.name} onChange={this.handleChange} required />
             <label  className='text-white font-bold'>Email</label>
@@ -48,7 +48,9 @@ export default class SignUpForm extends Component {
             <input className='bg-white'   type="password" name="password" value={this.state.password} onChange={this.handleChange} required />
             <label  className='text-white font-bold'>Confirm</label>
             <input className='bg-white'   type="password" name="confirm" value={this.state.confirm} onChange={this.handleChange} required />
+          <div className=' flex justify-end '>
             <Button className='w-20 ' color='primary' variant="ghost" type="submit" disabled={disable}>SIGN UP</Button>
+            </div>
           </form>
           <div className='flex items-center'>
           <p>Already have an account?</p>

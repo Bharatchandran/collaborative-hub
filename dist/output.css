@@ -3507,6 +3507,14 @@ html {
   width: var(--nextui-spacing-unit-8);
 }
 
+.w-3\/4 {
+  width: 75%;
+}
+
+.w-3\/12 {
+  width: 25%;
+}
+
 .min-w-\[200px\] {
   min-width: 200px;
 }

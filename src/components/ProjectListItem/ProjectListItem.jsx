@@ -114,7 +114,7 @@ settings
        </div>
      </CardHeader>
      <CardBody className="flex justify-center ml-10 bg-gradient-to-r from-blue-900 to-indigo-900 min-h-unit-12 w-3/9 rounded-b-xl px-3 py-0 text-small text-default-40 overflow-hidden">
-       <p className="ml-3 ">
+       <p className="ml-3 w-5/12  ">
          {thisProject.description}
          
       </p>
