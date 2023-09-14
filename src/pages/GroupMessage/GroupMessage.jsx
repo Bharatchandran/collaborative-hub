@@ -38,11 +38,11 @@ export default function GroupMessage(){
         <form className="w-full flex" onSubmit={handleMessageSend}>
             <div className="w-full mb-2">
             <div className="flex justify-center items-center ">
-            <div className="w-9/12 mr-4 flex  justify-center "><input required className="w-full bg-stone-700" type="text"  value={newMessage} onChange={(evt)=>setNewMessage(evt.target.value)} /></div>
+            <div className="w-9/12 mr-4 flex  justify-center "><input required className="w-full text-white bg-stone-700" type="text"  value={newMessage} onChange={(evt)=>setNewMessage(evt.target.value)} /></div>
            
             {/* <button type="submit" className="rounded-xl h-full ml-4  w-1/12">x</button>
              */}
-            <button className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg">Responsive</button>
+            <button className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg">Send</button>
             </div>
             </div>
         </form>
