@@ -22,3 +22,17 @@ export function getProjectMembers(projectId) {
     
     return sendRequest(`${BASE_URL}/${projectId}/findMembers`)
 }
+
+export function getProject(projectId){
+    return sendRequest(`${BASE_URL}/${projectId}/get`)
+}
+
+export function handleDelete(projectId){
+    console.log("delete")
+    return sendRequest(`${BASE_URL}/project/delete`, 'POST', {projectId})
+}
+
+export function handleEditSubmit(projectId, editProject){
+    console.log(projectId)
+    return sendRequest(`${BASE_URL}/${projectId}/edit`, 'POST', {projectId, editProject})
+}

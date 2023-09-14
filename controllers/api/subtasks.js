@@ -18,7 +18,7 @@ async function createSubTask(req, res){
 
 async function handleCompleteTask(req, res) {
     const subtask = await Subtask.findOne({_id: req.body.subtaskId})
-    subtask.completed = true
+    {subtask.completed?subtask.completed = false : subtask.completed = true }
     await subtask.save()
     res.json(subtask)
 }

@@ -9,7 +9,8 @@ export default function SubTakListHomeView({commit, activeState, activeCommit, h
   const [user, setUser] = useState(getUser());
 
   async function handleCompleteTask(evt,subtaskId){
-    console.log(!!evt.value)
+    const taskStatus = !!evt.isSelected
+    console.log(taskStatus)
     const handleTask = await subtaskAPI.handleCompleteTask(subtaskId)
     setTaskCompleted(taskCompleted * -1)
   }
@@ -42,7 +43,7 @@ export default function SubTakListHomeView({commit, activeState, activeCommit, h
             { testTasks.map(subTask => <CardBody className="border-1 ">
                 <div className="flex justify-between">
                     {subTask.task}
-                    {commit.user._id === user._id?<Checkbox isSelected={subTask.completed? true: false} onClick={(evt)=> handleCompleteTask(evt,subTask._id)}   color="success">
+                    {commit.user._id === user._id && commit.push === false?<Checkbox isSelected={subTask.completed? true: false} onClick={(evt)=> handleCompleteTask(evt,subTask._id)}   color="success">
                         {subTask.completed === true ? <h1>Success</h1> : <h1>Not Completed</h1>}
                     </Checkbox> : <div >
                     {subTask.completed === true ? <Checkbox isSelected={true} color="success">Success</Checkbox> : <h1>Not Completed</h1>}

@@ -34,4 +34,3 @@ export default function AuthPage({ setUser }) {
     
   );
 }
-// test test

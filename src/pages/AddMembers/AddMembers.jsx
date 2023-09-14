@@ -6,22 +6,31 @@ import { useParams } from "react-router-dom"
 export default function AddMembers(){
     const [users, setUsers] = useState([])
     const {projectId} = useParams()
+    const [addMemberCompelete, setAddMemberComplete] = useState(false)
 
     useEffect(function(){
-
-        async function getAllUsers(){
-            const allUsers = await addmembersAPI.getAllUsers()
+console.log(projectId,"++++++")
+        async function getAllUsers(projectId){
+            const allUsers = await addmembersAPI.getAllUsers(projectId)
             setUsers(allUsers)
 
         }
 
-        getAllUsers()
+        getAllUsers(projectId)
 
-    },[])
+    },[addMemberCompelete])
 
     return(
         <div>
-            <AddMemberList users={users} projectId={projectId}/>
+            {users && users[0]?
+            <div className="w-full min-h-screen flex justify-center items-center">
+            <AddMemberList  setAddMemberComplete
+            ={setAddMemberComplete} addMemberCompelete={addMemberCompelete} users={users} projectId={projectId}/>
+            </div>
+            :
+            <div className="h-screen flex justify-center items-center">
+            <h1 className="text-white text-4xl  "> No more user to add</h1></div> }
+            
         </div>
     )
 }

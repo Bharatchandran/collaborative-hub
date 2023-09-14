@@ -13,19 +13,23 @@ export default function Project() {
     const [createProject, setCreateProject] = useState(false)
     const [joinedProjects, setJoinedProjects] = useState([])
     const [selectedProject, setSelectedProject] = useState(null)
+    const [reloadProject, setReloadProject] = useState(-1)
     useEffect(function(){
         async function getAllProjects(){
             const allProjects = await projectAPI.getAllProjects()
+            console.log(allProjects)
             setProjects(allProjects)
         }
         getAllProjects()
+        console.log(projects)
 
         async function getAllJoinedProjects(){
             const joinedProjects = await await projectAPI.getAllJoinedProjects()
             setJoinedProjects(joinedProjects)
+            console.log("joined",joinedProjects)
         }
         getAllJoinedProjects()
-    },[newProject])
+    },[newProject,reloadProject])
     
     async function handleSubmit(evt) {
         evt.preventDefault();
@@ -49,6 +53,10 @@ export default function Project() {
             <Button color="primary" type="submit">Submit</Button>
         </form>
         </div> : ""}
-        <ProjectList key={"ProjectListInProject"} projects={joinedProjects} selectedProject={selectedProject} setSelectedProject={setSelectedProject}  />
+        {joinedProjects && joinedProjects[0]?
+        <ProjectList key={"ProjectListInProject"} projects={joinedProjects} selectedProject={selectedProject} setSelectedProject={setSelectedProject}  reloadProject={reloadProject} setReloadProject={setReloadProject} />
+        :
+        ""
+        }
     </div>)
 }
