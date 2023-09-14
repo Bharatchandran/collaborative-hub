@@ -142,8 +142,12 @@ settings
        </Dropdown>
        </div>
        <div className="flex ml-6">
-       <Button><Link to={`project/${project._id}`}><h1 className="text-white">Project Details</h1></Link></Button>
+       {project.user === currUser._id? 
        <Button><Link to={`${project._id}/addMembers`}>Add Members</Link></Button>
+       :
+       ""
+      }
+       <Button><Link to={`project/${project._id}`}><h1 className="text-white">Project Details</h1></Link></Button>
        {/* <Button onClick={()=>setAddMemberState(!addMemberState)}>Add Members</Button> */}
        </div>
      </CardFooter>
