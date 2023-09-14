@@ -151,11 +151,15 @@ return(
  
 
     </div>
-   
+    {!editState? 
       <Card  className="basis-full min-h-unit-24 mt-5   flex-row items-center">
         <CardBody   className="justify-center relative"  >
         <div className="absolute text-slate-300 -top-1 z-40">@{commit.user.name}</div>
-        <div className="text-2xl" >{thisCommit.name}</div>
+ <div className="text-2xl" >{thisCommit.name}</div>
+
+
+        
+
         </CardBody>
         <div className="flex ">
           {pulledUsers && commit.push? <Dropdown>
@@ -187,21 +191,39 @@ return(
           {/* <Button> <Link to={`commit/${commit._id}`}><h1 className="text-white">sub tasks</h1></Link></Button> */}
         </div>
       </Card>
-      {renderExpandButton()}
-    </div>
-    <SubTakListHomeView commit={commit} activeState={activeState} activeCommit={activeCommit} handleActiveState={handleActiveState} commitId={commit._id}  />
+: 
+
+
+<Card  className="basis-full min-h-unit-24 mt-5    flex-row items-center">
   
-    <div>
-      {editState === true ? <div className="flex justify-center
-             bg-opacity-60 rounded-xl absolute top-[30%]  w-[700px] z-40 h-[500px] bg-gray-600">  
-             <button className="absolute left-5 top-5" onClick={()=> setEditState(!editState)}>X</button> 
-             <form className="flex flex-col justify-center items-center" onSubmit={handleSubmit}>
-                    <h1 className="text-4xl -mt-10 mb-10">Edit Commit</h1>
-                    <input className="w-[500px] mb-5 bg-gray-900 text-white" required value={editCommit} onChange={(evt) => setEditCommit(evt.target.value)} />
-                    <Button color="primary" type="submit">Submit</Button>
-                    </form></div>:"" }
-      
+        <Button onClick={()=> setEditState(!editState)}>X</Button>
+        <CardBody   className="justify-center relative  "  >
+          <form className="flex items-center mt-4" onSubmit={handleSubmit}>
+          <input className="w-11/12 mb-5 bg-white text-black " required value={editCommit} onChange={(evt) => setEditCommit(evt.target.value)} />
+          <button  className="mb-8 w-1/12">Edit</button>
+          </form>
+        <div className="absolute text-slate-300 -top-1 z-40">@{commit.user.name}</div>
+
+
+        
+
+        </CardBody>
+        <div className="flex ">
+          
+          
+
+          {/* <Button> <Link to={`commit/${commit._id}`}><h1 className="text-white">sub tasks</h1></Link></Button> */}
+        </div>
+      </Card>
+
+}
+      {!editState?renderExpandButton():""}
     </div>
+
+      {!editState?<SubTakListHomeView commit={commit} activeState={activeState} activeCommit={activeCommit} handleActiveState={handleActiveState} commitId={commit._id}  />:""}
+    
+  
+   
   </div>
 )
 }

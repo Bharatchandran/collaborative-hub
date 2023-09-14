@@ -109,11 +109,11 @@ settings
          {/* <Avatar isBordered radius="full" size="md" src="/avatars/avatar-1.png" /> */}
          <div className="flex w-full  flex-col gap-1 items-start justify-center">
            <h5 className=" ml-8 mb-2 text-xl tracking-tight text-default-400">@{projectOwner.name}</h5>
-           <h4 className=" bg-black  flex items-center w-full h-12    ml-7 rounded-t-xl  text-2xl font-semibold leading-none text-default-600"><span className="ml-4">{thisProject.name}</span></h4>
+           <h4 className=" bg-yellow-900  flex items-center w-full h-12    ml-7 rounded-t-xl  text-2xl font-semibold leading-none text-default-600"><span className="ml-4">{thisProject.name}</span></h4>
          </div>
        </div>
      </CardHeader>
-     <CardBody className="flex justify-center ml-10 bg-gray-500 min-h-unit-12 w-3/9 rounded-b-xl px-3 py-0 text-small text-default-40 overflow-hidden">
+     <CardBody className="flex justify-center ml-10 bg-orange-900 min-h-unit-12 w-3/9 rounded-b-xl px-3 py-0 text-small text-default-40 overflow-hidden">
        <p className="ml-3 ">
          {thisProject.description}
          
