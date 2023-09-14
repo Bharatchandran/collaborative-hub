@@ -127,24 +127,28 @@ return(
           handleActiveState(commit._id,testTasks,currUser._id,commit.user._id, commit)
       }}>
         <div className="absolute -right-10  top-0">
- <Dropdown >
-      <DropdownTrigger >
-        <Button 
-        className=" h-4 border-none hover:bg-none"
-          variant="light" 
-        >
-          <span class="material-symbols-outlined">
-settings
-</span>
-        </Button>
-      </DropdownTrigger>
-      <DropdownMenu aria-label="Dynamic Actions">
-        
-          <DropdownItem><div onClick={handleEdit}>edit</div></DropdownItem>
-          <DropdownItem><div onClick={() => handleDelete(commit._id)}>delete</div></DropdownItem>
-        
-      </DropdownMenu>
-    </Dropdown>
+          {commit.user._id === currUser._id?
+          <Dropdown >
+          <DropdownTrigger >
+            <Button 
+            className=" h-4 border-none hover:bg-none"
+              variant="light" 
+            >
+              <span class="material-symbols-outlined">
+    settings
+    </span>
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Dynamic Actions">
+            
+              <DropdownItem><div onClick={handleEdit}>edit</div></DropdownItem>
+              <DropdownItem><div onClick={() => handleDelete(commit._id)}>delete</div></DropdownItem>
+            
+          </DropdownMenu>
+        </Dropdown>
+        :
+        "" }
+ 
 
     </div>
    

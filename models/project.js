@@ -11,6 +11,10 @@ const projectSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
         required: true
+    },
+    description:{
+        type: String,
+        required: true
     }
 }, {
     timestamps: true

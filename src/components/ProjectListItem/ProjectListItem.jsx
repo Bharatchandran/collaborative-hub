@@ -1,15 +1,18 @@
-import {Card, CardHeader, CardBody, CardFooter, Avatar, Button, AvatarGroup, DropdownMenu, DropdownItem, Dropdown,DropdownTrigger} from "@nextui-org/react";
+import {Card, CardHeader, CardBody, CardFooter, Avatar, Button, AvatarGroup, DropdownMenu, DropdownItem, Dropdown,DropdownTrigger, Input, Textarea} from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import * as projectAPI from "../../utilities/project-api"
 import * as addmembersAPI from "../../utilities/addmembers-api"
+import { getUser } from '../../utilities/users-service';
 export default function ProjectListItem({project, selectedProject, active,reloadProject, setReloadProject }){
   const [projectOwner, setProjectOwner] = useState("") 
   const [projectMembers, setProjectMembers] = useState([])
   const [addMemberState, setAddMemberState] = useState(false)
   const [users, setUsers] = useState([])
-  const [editState, setEditState] = useState(-1)
+  const [currUser, setCurrUser] = useState(getUser());
+  const [editState, setEditState] = useState(false)
   const [editProject, setEditProject] = useState("")
+  const [editProjectDescription, setEditProjectDescription] = useState("")
   const [thisProject, setThisProject] = useState("")
   const[editComplete, setEditComplete] = useState("")
   // const [reloadProject, setReloadProject] = useState(-1)
@@ -19,18 +22,20 @@ export default function ProjectListItem({project, selectedProject, active,reload
 
   async function handleSubmit(evt) {
     evt.preventDefault()
-    handleEditSubmit(project._id, editProject)
+    handleEditSubmit(project._id, editProject,editProjectDescription)
     setEditState(!editState)
+    setReloadProject(!reloadProject)
   }
 
   function handleEdit(){
     setEditState(true)
     setEditProject(thisProject.name)
+    setEditProjectDescription(thisProject.description)
     console.log(editState)
  }
 
- async function handleEditSubmit(projectId, editProject){
-  const commit = await projectAPI.handleEditSubmit(projectId, editProject)
+ async function handleEditSubmit(projectId, editProject, editDescription){
+  const commit = await projectAPI.handleEditSubmit(projectId, editProject, editDescription)
   setEditComplete("complete")
  
 }
@@ -68,87 +73,131 @@ export default function ProjectListItem({project, selectedProject, active,reload
     
     getProjectOwner()
     getProjectMembers(project._id)
-  },[editComplete])
+  },[editComplete, editState, editProjectDescription])
   return (
-   <div className="flex  justify-center w-10/12 ">
-
-    <Card className="mt-10 mb-10 w-full ">
+    <div className="flex  justify-center w-10/12 ">
+    {!editState? <Card className="mt-10 mb-10 w-full ">
     
-     <div className="absolute right-0 z-40">
-      <Dropdown  >
-      <DropdownTrigger >
-        <Button 
-        className=" h-4 border-none hover:bg-none"
-          variant="light" 
-        >
-          <span class="material-symbols-outlined">
+    <div className="absolute top-2 -right-0 z-40">
+    {project.user === currUser._id?
+    <Dropdown  >
+    <DropdownTrigger >
+      <Button 
+      className=" h-4 border-none hover:bg-none"
+        variant="light" 
+      >
+        <span class="material-symbols-outlined">
 settings
 </span>
-        </Button>
-      </DropdownTrigger>
-      <DropdownMenu aria-label="Dynamic Actions">
-        
-          <DropdownItem><div onClick={handleEdit}>edit</div></DropdownItem>
-          <DropdownItem><div onClick={() => handleDelete(project._id)}>delete</div></DropdownItem>
-        
-      </DropdownMenu>
-    </Dropdown>
-    </div>
-    
-      <CardHeader className="justify-between">
-        <div className="flex gap-5">
-          {/* <Avatar isBordered radius="full" size="md" src="/avatars/avatar-1.png" /> */}
-          <div className="flex flex-col gap-1 items-start justify-center">
-            <h4 className="text-xl font-semibold leading-none text-default-600">{thisProject.name}</h4>
-            <h5 className="text-xs tracking-tight text-default-400">@{projectOwner.name}</h5>
-          </div>
-        </div>
-      </CardHeader>
-      <CardBody className="px-3 py-0 text-small text-default-40 overflow-hidden">
-        <p>
-          Frontend developer and UI/UX enthusiast. Join me on this coding adventure!
-        </p>
-        <span className="pt-2">
-          #FrontendWithZoey 
-          <span className="py-2" aria-label="computer" role="img">
-            💻
-          </span>
-        </span>
-      </CardBody>
-      <CardFooter className="gap-3 flex justify-between">
-        <div className="flex gap-1">
-          <Dropdown>
-            <DropdownTrigger>
-        <AvatarGroup isBordered max={3} >
-         {projectMembers.map(member => <Avatar name={`${member.user.name}`} className="h-10 w-10 bg-black"/> )}
-         
-        </AvatarGroup>
-        </DropdownTrigger>
-        <DropdownMenu aria-label="Dynamic Actions" items={projectMembers}>
-        {(item) => (
-          <DropdownItem
-            key={item._id}
-            color={item.key === "delete" ? "danger" : "default"}
-            className={item.key === "delete" ? "text-danger" : ""}
-          >
-            {item.user.name}
-          </DropdownItem>
-        )}
-      </DropdownMenu>
-        </Dropdown>
-        </div>
-        <div className="flex ml-6">
-        <Button><Link to={`project/${project._id}`}><h1 className="text-white">Project Details</h1></Link></Button>
-        <Button><Link to={`${project._id}/addMembers`}>Add Members</Link></Button>
-        {/* <Button onClick={()=>setAddMemberState(!addMemberState)}>Add Members</Button> */}
-        </div>
-      </CardFooter>
+      </Button>
+    </DropdownTrigger>
+    <DropdownMenu aria-label="Dynamic Actions">
       
+        <DropdownItem><div onClick={handleEdit}>edit</div></DropdownItem>
+        <DropdownItem><div onClick={() => handleDelete(project._id)}>delete</div></DropdownItem>
+      
+    </DropdownMenu>
+  </Dropdown>
+  :
+  ""
+  }
      
-  </Card> 
+   </div>
+   
+     <CardHeader className="justify-between mt-6">
+       <div className="flex   w-full">
+         {/* <Avatar isBordered radius="full" size="md" src="/avatars/avatar-1.png" /> */}
+         <div className="flex w-full  flex-col gap-1 items-start justify-center">
+           <h5 className=" ml-8 mb-2 text-xl tracking-tight text-default-400">@{projectOwner.name}</h5>
+           <h4 className=" bg-black  flex items-center w-full h-12    ml-7 rounded-t-xl  text-2xl font-semibold leading-none text-default-600"><span className="ml-4">{thisProject.name}</span></h4>
+         </div>
+       </div>
+     </CardHeader>
+     <CardBody className="flex justify-center ml-10 bg-gray-500 min-h-unit-12 w-3/9 rounded-b-xl px-3 py-0 text-small text-default-40 overflow-hidden">
+       <p className="ml-3 ">
+         {thisProject.description}
+         
+      </p>
+     </CardBody>
+     <CardFooter className="gap-3 flex justify-between">
+       <div className="flex gap-1">
+         <Dropdown>
+           <DropdownTrigger>
+       <AvatarGroup className="ml-2" isBordered max={3} >
+        {projectMembers.map(member => <Avatar name={`${member.user.name}`} className="h-10 w-10 bg-black"/> )}
+        
+       </AvatarGroup>
+       </DropdownTrigger>
+       <DropdownMenu aria-label="Dynamic Actions" items={projectMembers}>
+       {(item) => (
+         <DropdownItem
+           key={item._id}
+           color={item.key === "delete" ? "danger" : "default"}
+           className={item.key === "delete" ? "text-danger" : ""}
+         >
+           {item.user.name}
+         </DropdownItem>
+       )}
+     </DropdownMenu>
+       </Dropdown>
+       </div>
+       <div className="flex ml-6">
+       <Button><Link to={`project/${project._id}`}><h1 className="text-white">Project Details</h1></Link></Button>
+       <Button><Link to={`${project._id}/addMembers`}>Add Members</Link></Button>
+       {/* <Button onClick={()=>setAddMemberState(!addMemberState)}>Add Members</Button> */}
+       </div>
+     </CardFooter>
+     
+    
+ </Card> 
+ :
+ <div className="flex flex-col items-center relative  w-2/4">
+   <Button className="absolute left-0" onClick={()=> setEditState(!editState)}>X</Button>
+  <h1 className="text-4xl font-bold mt-3">Edit</h1>
+ <Card className="mt-10 mb-10 w-full bg-white text-black ">
+    
+    <div className="absolute right-0 z-40">
+  
+   </div>
+     <form  className="flex flex-col" onSubmit={handleSubmit}>
+     <CardHeader className="justify-between p-5">
+       <div className="flex gap-5">
+         {/* <Avatar isBordered radius="full" size="md" src="/avatars/avatar-1.png" /> */}
+         <div className="flex flex-col gap-1 items-start justify-center">
+           
+           <h5 className="text-xs tracking-tight text-default-400">@{projectOwner.name}</h5>
+           <input className="w-fit  border-2 bg-white text-gray-800" required value={editProject} onChange={(evt) => setEditProject(evt.target.value)} />
+         </div>
+       </div>
+       <div>
+        <Button type="submit" color="primary">submit Edit</Button>
+       </div>
+     </CardHeader>
+     <CardBody className="px-3 p-5 py-0 text-small text-default-40 overflow-hidden">
+     <textarea variant="bordered" className="w-full rounded-xl h-20   text-sm  border-2 bg-white text-gray-800" required value={editProjectDescription} onChange={(evt) => setEditProjectDescription(evt.target.value)} />
+     {/* <p>{thisProject.description}</p> */}
+     
+       <span className="pt-2">
+         #FrontendWithZoey 
+         <span className="py-2" aria-label="computer" role="img">
+           💻
+         </span>
+       </span>
+     </CardBody>
+     </form>
+     <CardFooter className="gap-3 flex justify-between">
+       <div className="flex gap-1">
+         
+       </div>
+      
+     </CardFooter>
+     
+    
+ </Card> </div> }
+{/*    
   <div>
       {editState === true ? <div className="flex absolute  justify-center
-             bg-opacity-60 rounded-xl top-23 left-1/3   w-[700px] z-40 h-[500px] bg-gray-600">  
+             bg-opacity-60 rounded-xl top-1/2 left-1/2  w-[700px] z-40 h-[500px] bg-gray-600">  
              <button className="absolute left-5 top-5" onClick={()=> setEditState(!editState)}>X</button> 
              <form className="flex flex-col justify-center items-center" onSubmit={handleSubmit}>
                     <h1 className="text-4xl -mt-10 mb-10">Edit Commit</h1>
@@ -156,7 +205,7 @@ settings
                     <Button color="primary" type="submit">Submit</Button>
                     </form></div>:"" }
       
-    </div>
+    </div> */}
   </div> 
 )
 }

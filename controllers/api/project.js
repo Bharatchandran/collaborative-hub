@@ -21,7 +21,7 @@ async function getAllProjects(req, res) {
 }
 
 async function createProject(req, res){
-    const project = await Project.create({name:req.body.name, user: req.user._id})
+    const project = await Project.create({name:req.body.name, user: req.user._id, description: req.body.description})
     const members = await ProjectMember.create({project:project._id, user: req.user._id})
     res.json(project)
 }
@@ -66,6 +66,7 @@ async function handleDelete(req, res) {
 async function handleEditSubmit(req, res) {
     const project = await Project.findOne({_id: req.body.projectId})
     project.name = req.body.editProject
+    project.description = req.body.editDescription
     await project.save()
     console.log("Helloooooooo")
     res.json(project)
