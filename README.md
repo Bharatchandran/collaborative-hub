@@ -24,3 +24,10 @@ CollaborationHub serves as a central hub for team collaboration, ensuring that e
 - CRUD on Projects and commits
 - Group message
 
+
+## Screenshots
+![Auth Page](/ReadmeAssets/Auth%20Page.png)
+![Project Page](/ReadmeAssets/Project%20Page.png)
+![Commit Page](/ReadmeAssets/Commit%20Page.png)
+![Subtask List](/ReadmeAssets/Subtask1.png)
+

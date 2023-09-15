@@ -21,7 +21,7 @@ export default function AddMemberListItem({user, projectId, setAddMemberComplete
     // </div>
     
               <CardBody className="w-7/12 border-1 rounded-2xl m-6">
-                <div className="flex items-center justify-between" >
+                <div className="flex items-center h-full justify-between" >
                 <div>{user.name}</div>
                 <button onClick={handleClick}>add</button>
                 </div>
