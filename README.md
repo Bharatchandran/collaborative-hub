@@ -1,4 +1,5 @@
 
+# Collaboration Hub
 ## About 
 CollaborationHub serves as a central hub for team collaboration, ensuring that every member is on the same page and contributing efficiently. Here's how it works:
 1.  Task Tracking: With CollaborationHub, team members can log their individual development tasks and sub-tasks. This provides a clear roadmap of who is working on what, minimizing duplication of efforts.
