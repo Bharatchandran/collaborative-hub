@@ -16,7 +16,6 @@ module.exports = {
 
 async function getAllProjects(req, res) {
     const projects = await Project.find({user: req.user._id}).sort('-createdAt').populate('user');
-    console.log(projects,"ping")
     res.json(projects)
 }
 
@@ -29,11 +28,8 @@ async function createProject(req, res){
 async function getAllJoinedProjects(req,res){
     let projects = await ProjectMember.find({user: req.user._id}).populate('project').populate('user').sort('-createdAt')
     projects = projects.map(project => project.project)
-    console.log(projects,"-----")
     res.json(projects)
-    // let projects = await ProjectMember.find({})
-    //  projects = projects.map(project => project.project)
-    // res.json(projects)
+    
 }
 
 async function getProjectOwner(req, res){
@@ -44,7 +40,6 @@ async function getProjectOwner(req, res){
 async function getProjectMembers(req, res) {
     
     const members = await ProjectMember.find({project: req.params.id}).populate('user')
-    console.log(members)
     res.json(members)
 }
 
@@ -55,7 +50,6 @@ async function getProject(req, res) {
 
 async function handleDelete(req, res) {
     const projectMember = await ProjectMember.deleteOne({project: req.body.projectId, user: req.user._id})
-    console.log(projectMember, "tttttt")
     const project = await Project.deleteOne({_id: req.body.projectId})
     commitIds = await Commit.find({project: req.body.projectId})
     const commit = await Commit.deleteMany({project: req.body.projectId})
@@ -68,6 +62,5 @@ async function handleEditSubmit(req, res) {
     project.name = req.body.editProject
     project.description = req.body.editDescription
     await project.save()
-    console.log("Helloooooooo")
     res.json(project)
 }
