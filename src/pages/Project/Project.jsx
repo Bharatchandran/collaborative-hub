@@ -2,9 +2,8 @@
 import { useEffect, useState } from "react"
 import * as projectAPI from "../../utilities/project-api"
 import ProjectList from "../../components/ProjectList/ProjectList"
-import JoinedProjectList from "../../components/JoinedProjectList/JoinedProjectList"
 
-import {Button, Input} from "@nextui-org/react";
+import {Button} from "@nextui-org/react";
 
 export default function Project() {
     const [newProjectName, setNewProjectName] = useState("")
