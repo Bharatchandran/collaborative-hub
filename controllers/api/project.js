@@ -26,7 +26,7 @@ async function createProject(req, res){
 }
 
 async function getAllJoinedProjects(req,res){
-    let projects = await ProjectMember.find({user: req.user._id}).populate('project').populate('user').sort('-createdAt')
+    let projects = await ProjectMember.find({user: req.user._id}).populate('project','user').populate('user').sort('-createdAt')
     projects = projects.map(project => project.project)
     res.json(projects)
     
