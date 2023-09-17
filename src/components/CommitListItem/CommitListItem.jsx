@@ -1,5 +1,5 @@
 
-import {Card, CardBody, Button, CardHeader, Avatar, AvatarGroup ,Chip, Dropdown, DropdownMenu, DropdownItem, DropdownTrigger} from "@nextui-org/react";
+import {Card, CardBody, Button, Avatar, AvatarGroup, Dropdown, DropdownMenu, DropdownItem, DropdownTrigger} from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import * as commitAPI from "../../utilities/commit-api"
 import { getUser } from '../../utilities/users-service';
@@ -7,7 +7,6 @@ import * as subtaskAPI from  "../../utilities/subtask-api"
 import SubTakListHomeView from "../SubTakListHomeView/SubTakListHomeView";
 
 export default function CommitListItem({commit, activeState, activeCommit, handleActiveState, setProjectPush, projectPush , pull, setPull, pullButtonState, setPullButtonState, reloadCommit, setReloadCommit}){
-
 
   const [user, setUser] = useState(getUser());
   const [newSubTask, setNewSubTask] = useState("")
@@ -24,6 +23,7 @@ export default function CommitListItem({commit, activeState, activeCommit, handl
  const [editCommit, setEditCommit] = useState("")
 // console.log(projectPush)
   async function handlePushButton(){
+    console.log(commit.user)
     const pushCommit = await commitAPI.pushCommit(commit._id, commit.user)
     setProjectPush(projectPush * -1)
     setButtonState(buttonState * -1)
@@ -129,100 +129,101 @@ return(
           handleActiveState(commit._id,testTasks,currUser._id,commit.user._id, commit)
       }}>
         <div className="absolute -right-10  top-0">
-          {commit.user._id === currUser._id?
-          <Dropdown >
-          <DropdownTrigger >
-            <Button 
-            className=" h-8 border-none  "
-              variant="light" 
-            >
-              <span class="material-symbols-outlined">
-    settings
-    </span>
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu aria-label="Dynamic Actions">
-            
-              <DropdownItem><div onClick={handleEdit}>edit</div></DropdownItem>
-              <DropdownItem><div onClick={() => handleDelete(commit._id)}>delete</div></DropdownItem>
-            
-          </DropdownMenu>
-        </Dropdown>
-        :
-        "" }
- 
-
-    </div>
-    {!editState? 
-      <Card  className="basis-full min-h-unit-24 mt-5 bg-gradient-to-r from-stone-700 to-stone-900  flex-row items-center">
-        <CardBody   className="justify-center relative"  >
-        <div className="absolute text-slate-300 -top-1 z-40">@{commit.user.name}</div>
- <div className="text-2xl" >{thisCommit.name}</div>
-
-
-        
-
-        </CardBody>
-        <div className="flex ">
-          {pulledUsers && commit.push? <Dropdown>
-          <DropdownTrigger>
-        <AvatarGroup className="flex mr-10 " isBordered max={3}>
-          {/* {pulledUsers.map(pulledUser => <Chip className="shrink" color="default">{pulledUser.user.name}</Chip>)} */}
-          {pulledUsers.map(pulledUser => <Avatar name={`${pulledUser.user.name}`} className="h-10 w-10 bg-black"/>)}
-       
-    </AvatarGroup>
-    </DropdownTrigger>
-    <DropdownMenu aria-label="Dynamic Actions" items={pulledUsers}>
-        {(item) => (
-          <DropdownItem
-            key={item._id}
-            color={item.key === "delete" ? "danger" : "default"}
-            className={item.key === "delete" ? "text-danger" : ""}
-          >
-            {item.user.name}
-          </DropdownItem>
-        )}
-      </DropdownMenu>
-
-    </Dropdown> : ""}
-          
-<div className="mr-4">
-
-          {renderButton()}
-</div>
-          {/* <Button> <Link to={`commit/${commit._id}`}><h1 className="text-white">sub tasks</h1></Link></Button> */}
+          {commit.user._id === currUser._id ?
+                <Dropdown >
+                    <DropdownTrigger >
+                      <Button 
+                      className=" h-8 border-none  "
+                        variant="light" 
+                      >
+                        <span class="material-symbols-outlined">
+                          settings
+                        </span>
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Dynamic Actions">
+                        <DropdownItem><div onClick={handleEdit}>edit</div></DropdownItem>
+                        <DropdownItem><div onClick={() => handleDelete(commit._id)}>delete</div></DropdownItem>
+                    </DropdownMenu>
+              </Dropdown>
+            :
+                "" 
+          }
         </div>
-      </Card>
-: 
+        {!editState ? 
+            <Card  className="basis-full min-h-unit-24 mt-5 bg-gradient-to-r from-stone-700 to-stone-900  flex-row items-center">
+              <CardBody   className="justify-center relative"  >
+                <div className="absolute text-slate-300 -top-1 z-40">
+                  @{commit.user.name}
+                </div>
+                <div className="text-2xl" >
+                  {thisCommit.name}
+                </div>
+              </CardBody>
+              <div className="flex ">
+                {pulledUsers && commit.push ?
+                <Dropdown>
+                      <DropdownTrigger>
+                        <AvatarGroup className="flex mr-10 " isBordered max={3}>
+                          {/* {pulledUsers.map(pulledUser => <Chip className="shrink" color="default">{pulledUser.user.name}</Chip>)} */}
+                          {pulledUsers.map(pulledUser => <Avatar name={`${pulledUser.user.name}`} className="h-10 w-10 bg-black"/>)}
+                        </AvatarGroup>
+                      </DropdownTrigger>
+                      <DropdownMenu aria-label="Dynamic Actions" items={pulledUsers}>
+                          {(item) => (
+                            <DropdownItem
+                              key={item._id}
+                              color={item.key === "delete" ? "danger" : "default"}
+                              className={item.key === "delete" ? "text-danger" : ""}
+                            >
+                              {item.user.name}
+                            </DropdownItem>
+                          )}
+                      </DropdownMenu>
+
+                    </Dropdown> 
+                  : 
+                    ""
+                }
+            
+                <div className="mr-4">
+                    {renderButton()}
+                </div>
+                {/* <Button> <Link to={`commit/${commit._id}`}><h1 className="text-white">sub tasks</h1></Link></Button> */}
+              </div>
+            </Card>
+          : 
 
 
-<Card  className="basis-full min-h-unit-24 mt-5 bg-gradient-to-r from-neutral-400 to-stone-500    flex-row items-center">
-  
-        <Button onClick={()=> setEditState(!editState)}>X</Button>
-        <CardBody   className="justify-center relative  "  >
-          <form className="flex items-center mt-4" onSubmit={handleSubmit}>
-          <input className="w-11/12 mb-5 bg-white text-black " required value={editCommit} onChange={(evt) => setEditCommit(evt.target.value)} />
-          <button  className="mb-8 w-1/12">Edit</button>
-          </form>
-        <div className="absolute text-slate-900 top-3 z-40">@{commit.user.name}</div>
+            <Card  className="basis-full min-h-unit-24 mt-5 bg-gradient-to-r from-neutral-400 to-stone-500    flex-row items-center">
+              <Button onClick={()=> setEditState(!editState)}>
+                X
+              </Button>
+              <CardBody   className="justify-center relative">
+                <form className="flex items-center mt-4" onSubmit={handleSubmit}>
+                  <input className="w-11/12 mb-5 bg-white text-black " required value={editCommit} onChange={(evt) => setEditCommit(evt.target.value)} />
+                  <button  className="mb-8 w-1/12">
+                    Edit
+                  </button>
+                </form>
+                <div className="absolute text-slate-900 top-3 z-40">
+                  @{commit.user.name}
+                </div>
+              </CardBody>
+              <div className="flex ">
+                {/* <Button> <Link to={`commit/${commit._id}`}><h1 className="text-white">sub tasks</h1></Link></Button> */}
+              </div>
+            </Card>
 
-
-        
-
-        </CardBody>
-        <div className="flex ">
-          
-          
-
-          {/* <Button> <Link to={`commit/${commit._id}`}><h1 className="text-white">sub tasks</h1></Link></Button> */}
-        </div>
-      </Card>
-
-}
-      {!editState?renderExpandButton():""}
+        }
+        {!editState ? renderExpandButton() : ""}
     </div>
 
-      {!editState?<SubTakListHomeView commit={commit} activeState={activeState} activeCommit={activeCommit} handleActiveState={handleActiveState} commitId={commit._id}  />:""}
+    {!editState ? 
+        <SubTakListHomeView commit={commit} activeState={activeState} activeCommit={activeCommit} handleActiveState={handleActiveState} commitId={commit._id}  />
+      :
+        ""
+    }
     
   
    
