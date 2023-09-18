@@ -95,9 +95,6 @@ export default function Commit(){
                         </h1>
                     </div>     
             }
-         
-         
-            
         </div>
         
     )

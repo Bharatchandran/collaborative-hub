@@ -25,7 +25,8 @@ export default function CommitListItem({commit, activeState, activeCommit, handl
   async function handlePushButton(){
     console.log(commit.user)
     const pushCommit = await commitAPI.pushCommit(commit._id, commit.user)
-    setProjectPush(projectPush * -1)
+    // setProjectPush(projectPush * -1)
+    setReloadCommit(!reloadCommit)
     setButtonState(buttonState * -1)
   }
   
@@ -185,7 +186,6 @@ return(
                   : 
                     ""
                 }
-            
                 <div className="mr-4">
                     {renderButton()}
                 </div>
@@ -193,8 +193,6 @@ return(
               </div>
             </Card>
           : 
-
-
             <Card  className="basis-full min-h-unit-24 mt-5 bg-gradient-to-r from-neutral-400 to-stone-500    flex-row items-center">
               <Button onClick={()=> setEditState(!editState)}>
                 X
@@ -214,19 +212,14 @@ return(
                 {/* <Button> <Link to={`commit/${commit._id}`}><h1 className="text-white">sub tasks</h1></Link></Button> */}
               </div>
             </Card>
-
         }
         {!editState ? renderExpandButton() : ""}
     </div>
-
     {!editState ? 
         <SubTakListHomeView commit={commit} activeState={activeState} activeCommit={activeCommit} handleActiveState={handleActiveState} commitId={commit._id}  />
       :
         ""
     }
-    
-  
-   
   </div>
 )
 }
