@@ -12,11 +12,9 @@ export default function Commit(){
     const [newCommit, setNewCommit] = useState("")
     const [commits, setCommits] = useState([])
     const [createCommit, setCreateCommit] = useState(false)
-    const [projectPush, setProjectPush] = useState(-1)
     const [reloadCommit, setReloadCommit] = useState(-1)
     const [pull, setPull] = useState(false)
     let {projectId} = useParams();
-
 
     useEffect(function(){
 
@@ -27,7 +25,7 @@ export default function Commit(){
 
         getAllCommits(projectId)
         
-    },[newCommit, projectPush, reloadCommit])
+    },[newCommit, reloadCommit, pull])
 
     async function handleSubmit(evt) {
         evt.preventDefault();
@@ -38,7 +36,7 @@ export default function Commit(){
 
     async function handlePullButton(){
         const pushCommit = await commitAPI.pullCommit()
-        setPull(true)
+        setPull(!pull)
       }
 
     return(
@@ -85,7 +83,7 @@ export default function Commit(){
             }
             {commits && commits[0] ?
                     <div className="flex  w-full justify-center">
-                        <CommitList key={"CommitListInCommit"} commits={commits} setProjectPush={setProjectPush} projectPush={projectPush} pull={pull} setPull={setPull}  reloadCommit={reloadCommit} setReloadCommit={setReloadCommit} />
+                        <CommitList key={"CommitListInCommit"} commits={commits}  pull={pull} setPull={setPull}  reloadCommit={reloadCommit} setReloadCommit={setReloadCommit} />
                     
                     </div> 
                  : 

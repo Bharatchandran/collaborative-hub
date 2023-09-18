@@ -6,12 +6,10 @@ import { getUser } from '../../utilities/users-service';
 import * as subtaskAPI from  "../../utilities/subtask-api"
 import SubTakListHomeView from "../SubTakListHomeView/SubTakListHomeView";
 
-export default function CommitListItem({commit, activeState, activeCommit, handleActiveState, setProjectPush, projectPush , pull, setPull, pullButtonState, setPullButtonState, reloadCommit, setReloadCommit}){
+export default function CommitListItem({commit, activeState, activeCommit, handleActiveState, pull, reloadCommit, setReloadCommit}){
 
   const [user, setUser] = useState(getUser());
-  const [newSubTask, setNewSubTask] = useState("")
   const [testTasks, setTestTasks] = useState([])
-  const userId = user._id
   const [push, setPush] = useState("")
   const [thisCommit, setThisCommit] = useState([])
   const [pulledCommit, setPulledCommit] = useState(false)
@@ -21,11 +19,9 @@ export default function CommitListItem({commit, activeState, activeCommit, handl
  const [editState, setEditState] = useState(false)
  const[editComplete, setEditComplete] = useState("")
  const [editCommit, setEditCommit] = useState("")
-// console.log(projectPush)
-  async function handlePushButton(){
-    console.log(commit.user)
+
+async function handlePushButton(){
     const pushCommit = await commitAPI.pushCommit(commit._id, commit.user)
-    // setProjectPush(projectPush * -1)
     setReloadCommit(!reloadCommit)
     setButtonState(buttonState * -1)
   }
@@ -33,7 +29,6 @@ export default function CommitListItem({commit, activeState, activeCommit, handl
 async function handleCompleteTask(evt,subtaskId){
   const handleTask = await subtaskAPI.handleCompleteTask(subtaskId)
 }
-
 
 async function handleSubmit(evt) {
   evt.preventDefault()
@@ -44,7 +39,6 @@ async function handleSubmit(evt) {
 async function handleEditSubmit(commitId, editCommit){
   const commit = await commitAPI.handleEditSubmit(commitId, editCommit)
   setEditComplete("complete")
- 
 }
 
 async function handleDelete(commitId) {
@@ -52,45 +46,40 @@ async function handleDelete(commitId) {
   setReloadCommit(!reloadCommit)
 }
 
-  useEffect(function(){
-      async function getAllSubTasks(commitId) {
-          const allSubTasks = await subtaskAPI.getAllSubTasks(commitId)
-          setTestTasks(allSubTasks)
-      }
+useEffect(function(){
+    async function getAllSubTasks(commitId) {
+        const allSubTasks = await subtaskAPI.getAllSubTasks(commitId)
+        setTestTasks(allSubTasks)
+    }
 
-      async function findPull(commitId, userId){
-        const pull = await commitAPI.findPull(commitId, userId)
-        // setPull(pull)
-        setPulledCommit(pull)
-      }
+    async function findPull(commitId, userId){
+      const pull = await commitAPI.findPull(commitId, userId)
+      setPulledCommit(pull)
+    }
 
-      async function findPushed(commitId,userId){
-        const pushCommit = await commitAPI.findPushed(commitId, userId)
-        setPush(pushCommit)
-        console.log(push)
-      }
-      async function getAllPulledUsers(commitId){
-         const pulledUsers = await commitAPI.getAllPulledUsers(commitId)
-         setPulledUsers(pulledUsers)
-         console.log(pulledUsers)
-      }
-      async function getCommit(commitId){
-        const commit = await commitAPI.getCommit(commitId)
-        setThisCommit(commit)
-        console.log("use use")
-      }
-      getCommit(commit._id)
-      getAllPulledUsers(commit._id)
-      getAllSubTasks(commit._id)
-      findPushed(commit._id,userId)
-      findPull(commit._id, userId)
+    async function findPushed(commitId,userId){
+      const pushCommit = await commitAPI.findPushed(commitId, userId)
+      setPush(pushCommit)
+    }
+    async function getAllPulledUsers(commitId){
+        const pulledUsers = await commitAPI.getAllPulledUsers(commitId)
+        setPulledUsers(pulledUsers)
+    }
+    async function getCommit(commitId){
+      const commit = await commitAPI.getCommit(commitId)
+      setThisCommit(commit)
+    }
+    getCommit(commit._id)
+    getAllPulledUsers(commit._id)
+    getAllSubTasks(commit._id)
+    findPushed(commit._id,user._id)
+    findPull(commit._id, user._id)
 
-  },[newSubTask, buttonState, pull,editCommit, editComplete])
+  },[ buttonState, pull,editCommit, editComplete])
 
  function handleEdit(){
     setEditState(true)
     setEditCommit(thisCommit.name)
-    console.log(editState)
  }
   function renderButton(){
     if(push && push.push === true && push.user === currUser._id){
@@ -110,17 +99,19 @@ async function handleDelete(commitId) {
 
   function renderExpandButton() {
     if(currUser._id === commit.user._id && commit.push != true ){
-      // return (<div className="bg-black h-[90px] w-10"> <span className="material-symbols-outlined absolute -right-10 rounded-full mt-5  bg-gray-800"
-      // >
-      return (<div className=" h-[95px] w-8 flex justify-center items-center mt-5 rounded-r-full absolute -right-10 "> <span className="material-symbols-outlined "
-      >
-        expand_more
-        </span></div>)
+      return (
+        <div className=" h-[95px] w-8 flex justify-center items-center mt-5 rounded-r-full absolute -right-10 "> 
+          <span className="material-symbols-outlined ">
+            expand_more
+          </span>
+        </div>)
     } else if (testTasks && testTasks[0]){
-      return (<div className=" h-[95px] w-10 flex justify-center items-center mt-5 rounded-r-full absolute -right-10 "> <span className="material-symbols-outlined "
-      >
-        expand_more
-        </span></div>)
+      return (
+        <div className=" h-[95px] w-10 flex justify-center items-center mt-5 rounded-r-full absolute -right-10 "> 
+          <span className="material-symbols-outlined ">
+            expand_more
+          </span>
+        </div>)
     }
   }
 
@@ -216,7 +207,7 @@ return(
         {!editState ? renderExpandButton() : ""}
     </div>
     {!editState ? 
-        <SubTakListHomeView commit={commit} activeState={activeState} activeCommit={activeCommit} handleActiveState={handleActiveState} commitId={commit._id}  />
+        <SubTakListHomeView commit={commit} activeState={activeState} activeCommit={activeCommit}  commitId={commit._id}  />
       :
         ""
     }

@@ -7,12 +7,10 @@ export default function CommitList({commits, setProjectPush, projectPush, pull, 
     function handleActiveState(commitId,testTasks,currUserId,commitUserId,commit ) {
                if(currUserId === commitUserId ){
                 if(!commit.push){
-
                     setActiveState(activeState * -1)
                 } else if(commit.push && testTasks && testTasks[0]){
                     setActiveState(activeState * -1)
                 }
-
                } else if (testTasks[0] ){
                     if(currUserId != commitUserId ){
                         setActiveState(activeState * -1)
@@ -21,8 +19,9 @@ export default function CommitList({commits, setProjectPush, projectPush, pull, 
                setActiveCommit(commitId)
            }
 
-    const commitList = commits.map(commit => <CommitListItem key={commit._id} activeState={activeState} 
-        activeCommit={activeCommit} className="max-w-2xl" commit={commit} handleActiveState={handleActiveState} setProjectPush={setProjectPush} projectPush={projectPush} pull={pull} setPull={setPull} reloadCommit={reloadCommit} setReloadCommit={setReloadCommit}  />)
+    const commitList = commits.map(commit => <CommitListItem  key={commit._id} activeState={activeState} 
+        activeCommit={activeCommit}  commit={commit} handleActiveState={handleActiveState} 
+        pull={pull}  reloadCommit={reloadCommit} setReloadCommit={setReloadCommit}  />)
     
 return(
     <div className=" w-8/12 ">{commitList}</div>
